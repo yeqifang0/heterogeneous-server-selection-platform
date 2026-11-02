@@ -2,6 +2,29 @@
 (function () {
   const TOKEN_KEY = 'ssp_token';
 
+  // 存储容错：部分内嵌浏览器（微信/QQ 内核、沙箱 iframe、隐私模式）禁用 localStorage，
+  // 统一降级为内存存储保证可用（降级后刷新页面会丢失登录态/草稿，属预期行为）
+  var SSPStorage = (function () {
+    function memStore() {
+      var mem = {};
+      return {
+        getItem: function (k) { return Object.prototype.hasOwnProperty.call(mem, k) ? mem[k] : null; },
+        setItem: function (k, v) { mem[k] = String(v); },
+        removeItem: function (k) { delete mem[k]; },
+        clear: function () { mem = {}; }
+      };
+    }
+    function pick(native) {
+      try { var t = '__ssp_probe__'; native.setItem(t, '1'); native.removeItem(t); return native; }
+      catch (e) { return memStore(); }
+    }
+    var out = {};
+    try { out.local = pick(window.localStorage); } catch (e) { out.local = memStore(); }
+    try { out.session = pick(window.sessionStorage); } catch (e) { out.session = memStore(); }
+    return out;
+  })();
+  window.SSPStorage = SSPStorage;
+
   class ApiError extends Error {
     constructor(message, fields) {
       super(message);
@@ -11,7 +34,7 @@
 
   async function api(path, opts = {}) {
     const headers = {};
-    const token = localStorage.getItem(TOKEN_KEY);
+    const token = SSPStorage.local.getItem(TOKEN_KEY);
     if (token) headers.Authorization = 'Bearer ' + token;
     if (opts.body !== undefined) headers['Content-Type'] = 'application/json';
     const res = await fetch(path, {
@@ -28,7 +51,7 @@
   // 带鉴权的文件下载（PDF）
   async function apiDownload(path, filename) {
     const headers = {};
-    const token = localStorage.getItem(TOKEN_KEY);
+    const token = SSPStorage.local.getItem(TOKEN_KEY);
     if (token) headers.Authorization = 'Bearer ' + token;
     const res = await fetch(path, { headers });
     if (!res.ok) {
@@ -48,7 +71,7 @@
 
   window.ssp = {
     api, apiDownload, ApiError,
-    get token() { return localStorage.getItem(TOKEN_KEY); },
-    setToken(t) { t ? localStorage.setItem(TOKEN_KEY, t) : localStorage.removeItem(TOKEN_KEY); }
+    get token() { return SSPStorage.local.getItem(TOKEN_KEY); },
+    setToken(t) { t ? SSPStorage.local.setItem(TOKEN_KEY, t) : SSPStorage.local.removeItem(TOKEN_KEY); }
   };
 })();

@@ -2,6 +2,7 @@
 (function () {
   const $view = () => document.getElementById('view');
   const DRAFT_KEY = 'ssp_draft_v1';
+  const LS = window.SSPStorage.local, SS = window.SSPStorage.session;
   const state = { bootstrap: null, user: null, seq: 0 };
 
   // ---------- 基础工具 ----------
@@ -297,7 +298,7 @@
     const form = v.querySelector('#calc-form');
 
     // 草稿逻辑
-    function readDraft() { try { return JSON.parse(localStorage.getItem(DRAFT_KEY)); } catch (e) { return null; } }
+    function readDraft() { try { return JSON.parse(LS.getItem(DRAFT_KEY)); } catch (e) { return null; } }
     function applyDraft(data) {
       if (!data) return;
       for (const [k, val] of Object.entries(data)) {
@@ -311,7 +312,7 @@
       banner.hidden = false;
       v.querySelector('#draft-time').textContent = fmtTime(draft.savedAt);
       v.querySelector('#draft-restore').onclick = () => { applyDraft(draft.data); banner.hidden = true; toast('草稿已恢复', 'ok'); };
-      v.querySelector('#draft-drop').onclick = () => { localStorage.removeItem(DRAFT_KEY); banner.hidden = true; };
+      v.querySelector('#draft-drop').onclick = () => { LS.removeItem(DRAFT_KEY); banner.hidden = true; };
     }
     function collectForm() {
       const data = {};
@@ -320,7 +321,7 @@
     }
     function saveDraft(silent) {
       const data = collectForm();
-      localStorage.setItem(DRAFT_KEY, JSON.stringify({ savedAt: new Date().toISOString(), data }));
+      LS.setItem(DRAFT_KEY, JSON.stringify({ savedAt: new Date().toISOString(), data }));
       if (!silent) toast('草稿已暂存，下次进入可恢复', 'ok');
     }
     let draftTimer = null;
@@ -405,7 +406,7 @@
           if (payload[k] !== '') payload[k] = Number(payload[k]); else payload[k] = null;
         }
         const res = await ssp.api('/api/tasks', { body: payload });
-        localStorage.removeItem(DRAFT_KEY);
+        LS.removeItem(DRAFT_KEY);
         location.hash = '#/task/' + res.taskId;
       } catch (err) {
         btn.disabled = false;
@@ -657,7 +658,7 @@
   // ---------- 购买与支付 ----------
   function buyProduct(taskId, productId, onSuccess) {
     if (!ssp.token) {
-      sessionStorage.setItem('ssp_return', location.hash);
+      SS.setItem('ssp_return', location.hash);
       toast('请先登录后再购买');
       location.hash = '#/login';
       return;
@@ -831,7 +832,7 @@
   // ---------- 订单页 ----------
   async function renderOrders(v) {
     if (!state.user) {
-      sessionStorage.setItem('ssp_return', '#/orders');
+      SS.setItem('ssp_return', '#/orders');
       v.innerHTML = `<div class="empty"><div class="icon">👤</div>登录后可查看历史订单与已购报告<br><br><a class="btn btn-primary" href="#/login">去登录</a></div>`;
       return;
     }
@@ -907,8 +908,8 @@
         state.user = res.user;
         renderUserArea();
         toast('登录成功，欢迎 ' + (res.user.displayName || res.user.username), 'ok');
-        location.hash = sessionStorage.getItem('ssp_return') || '#/';
-        sessionStorage.removeItem('ssp_return');
+        location.hash = SS.getItem('ssp_return') || '#/';
+        SS.removeItem('ssp_return');
       } catch (err) { toast(err.message, 'err'); }
     };
   }
@@ -944,8 +945,8 @@
         state.user = res.user;
         renderUserArea();
         toast('注册成功，已自动登录', 'ok');
-        location.hash = sessionStorage.getItem('ssp_return') || '#/';
-        sessionStorage.removeItem('ssp_return');
+        location.hash = SS.getItem('ssp_return') || '#/';
+        SS.removeItem('ssp_return');
       } catch (err) {
         if (err.message.indexOf('用户名') >= 0) setE(0, err.message); else toast(err.message, 'err');
       }
@@ -955,7 +956,7 @@
   // ---------- 管理后台入口（实现在 admin.js） ----------
   function renderAdmin(v) {
     if (!state.user) {
-      sessionStorage.setItem('ssp_return', '#/admin');
+      SS.setItem('ssp_return', '#/admin');
       v.innerHTML = `<div class="empty"><div class="icon">🛡️</div>管理后台需要管理员登录<br><br><a class="btn btn-primary" href="#/login">去登录</a></div>`;
       return;
     }

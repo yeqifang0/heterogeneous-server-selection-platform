@@ -1817,6 +1817,570 @@
       ],
       "creatorUserId": null,
       "createdAt": "2026-11-02T08:02:56.819Z"
+    },
+    {
+      "id": "TMVYZ5O1V6D9F67",
+      "form": {
+        "scenario": "gpu-train",
+        "concurrentUsers": 2000,
+        "workloadDesc": "",
+        "cpuCoresMin": null,
+        "cpuCoresMax": null,
+        "cpuFreqMin": null,
+        "gpuRequirement": "nvidia-dc",
+        "gpuCount": 8,
+        "memoryGB": 512,
+        "storageValue": 100,
+        "storageUnit": "TB",
+        "nicMbps": null,
+        "budgetMin": 1500000,
+        "budgetMax": 3000000,
+        "deliveryCycle": "any",
+        "remark": ""
+      },
+      "result": {
+        "sizing": {
+          "profile": "gpu",
+          "scenarioConf": {
+            "profile": "gpu",
+            "coresPer1kUsers": 16,
+            "memGBPerCore": 8,
+            "gpuPer1kUsers": 4,
+            "storageGBPer1kUsers": 500,
+            "storageMultiplier": 1.5,
+            "nicMbpsPer1kUsers": 50
+          },
+          "recCores": 42,
+          "recMemGB": 512,
+          "recGpuCount": 8,
+          "gpuClassRequired": "nvidia-dc",
+          "recStorageGB": 154800,
+          "recNicMbps": 100,
+          "scaleLevel": "中型（1千~1万并发）",
+          "derivations": [
+            {
+              "item": "推荐CPU总核数",
+              "value": "42 核",
+              "basis": "每千并发×16核 ×(1+30%余量)"
+            },
+            {
+              "item": "推荐内存容量",
+              "value": "512 GB",
+              "basis": "42核 × 8 GB/核，并取用户内存要求与换算值的较大者"
+            },
+            {
+              "item": "推荐GPU卡数",
+              "value": "8 张",
+              "basis": "每千并发×4张，并满足用户GPU数量要求"
+            },
+            {
+              "item": "推荐存储容量",
+              "value": "154800 GB（约 151.2 TB）",
+              "basis": "用户存储 × 1.5（GPU训练画像系数）+ 系统盘 200 GB + 每千并发×500 GB"
+            },
+            {
+              "item": "推荐网络带宽",
+              "value": "≥ 100 Mbps",
+              "basis": "每千并发×50 Mbps，与用户带宽要求取较大者"
+            }
+          ]
+        },
+        "profileLabel": "GPU密集型",
+        "candidates": [
+          {
+            "machine": {
+              "id": "inspur-nf5468a5",
+              "brand": "浪潮",
+              "model": "NF5468A5",
+              "category": "GPU服务器",
+              "cpuArch": "x86",
+              "cpu": {
+                "model": "Intel Xeon Platinum 8352Y",
+                "count": 2,
+                "coresPerCPU": 32,
+                "freqGHz": 2.2
+              },
+              "gpu": {
+                "model": "NVIDIA A800 80GB PCIe",
+                "count": 8,
+                "vramGB": 80,
+                "fp16Tflops": 312,
+                "class": "nvidia-dc"
+              },
+              "memory": {
+                "stdGB": 512,
+                "maxGB": 4096,
+                "slots": 32,
+                "type": "DDR4-3200 ECC"
+              },
+              "storage": {
+                "stdTB": 7.68,
+                "maxTB": 61.44,
+                "type": "NVMe SSD"
+              },
+              "network": {
+                "model": "2×25GbE + 2×200G InfiniBand",
+                "nicGbps": 25
+              },
+              "powerW": 5500,
+              "price": 998000,
+              "warrantyYears": 3,
+              "deliveryWeeks": 6,
+              "tags": [
+                "gpu-train",
+                "render"
+              ],
+              "status": "active",
+              "note": "8卡A800训练服务器，支持大规模分布式训练"
+            },
+            "cluster": {
+              "nodes": 3,
+              "totalCores": 192,
+              "totalMemGB": 1536,
+              "totalGpu": 24,
+              "totalGpuFlops": 7488,
+              "perNodeStorageTB": 50.4,
+              "totalStorageTB": 151.2,
+              "totalNicMbps": 75000,
+              "totalPrice": 2994000,
+              "totalPowerKW": 16.5
+            },
+            "scores": {
+              "performance": 70.2,
+              "value": 100,
+              "power": 60,
+              "service": 95,
+              "total": 81.3,
+              "valueIndex": 1.9
+            },
+            "fitRatios": {
+              "cpu": 4.57,
+              "mem": 3,
+              "gpu": 3,
+              "storage": 1,
+              "nic": 750
+            },
+            "reasons": [
+              "CPU覆盖需求 457%、内存覆盖 300%、存储覆盖 100%，3 节点即可满足并发规模测算需求。",
+              "24 × NVIDIA A800 80GB PCIe（FP16合计 7488 TFLOPS），GPU密集负载下算力余量充足。",
+              "综合适配度 81.3 分（性能70.2/性价比100/功耗60/维保95），性价比表现突出；总价 ￥2,994,000 处于预算区间高位。"
+            ]
+          }
+        ],
+        "top3": [
+          {
+            "machine": {
+              "id": "inspur-nf5468a5",
+              "brand": "浪潮",
+              "model": "NF5468A5",
+              "category": "GPU服务器",
+              "cpuArch": "x86",
+              "cpu": {
+                "model": "Intel Xeon Platinum 8352Y",
+                "count": 2,
+                "coresPerCPU": 32,
+                "freqGHz": 2.2
+              },
+              "gpu": {
+                "model": "NVIDIA A800 80GB PCIe",
+                "count": 8,
+                "vramGB": 80,
+                "fp16Tflops": 312,
+                "class": "nvidia-dc"
+              },
+              "memory": {
+                "stdGB": 512,
+                "maxGB": 4096,
+                "slots": 32,
+                "type": "DDR4-3200 ECC"
+              },
+              "storage": {
+                "stdTB": 7.68,
+                "maxTB": 61.44,
+                "type": "NVMe SSD"
+              },
+              "network": {
+                "model": "2×25GbE + 2×200G InfiniBand",
+                "nicGbps": 25
+              },
+              "powerW": 5500,
+              "price": 998000,
+              "warrantyYears": 3,
+              "deliveryWeeks": 6,
+              "tags": [
+                "gpu-train",
+                "render"
+              ],
+              "status": "active",
+              "note": "8卡A800训练服务器，支持大规模分布式训练"
+            },
+            "cluster": {
+              "nodes": 3,
+              "totalCores": 192,
+              "totalMemGB": 1536,
+              "totalGpu": 24,
+              "totalGpuFlops": 7488,
+              "perNodeStorageTB": 50.4,
+              "totalStorageTB": 151.2,
+              "totalNicMbps": 75000,
+              "totalPrice": 2994000,
+              "totalPowerKW": 16.5
+            },
+            "scores": {
+              "performance": 70.2,
+              "value": 100,
+              "power": 60,
+              "service": 95,
+              "total": 81.3,
+              "valueIndex": 1.9
+            },
+            "fitRatios": {
+              "cpu": 4.57,
+              "mem": 3,
+              "gpu": 3,
+              "storage": 1,
+              "nic": 750
+            },
+            "reasons": [
+              "CPU覆盖需求 457%、内存覆盖 300%、存储覆盖 100%，3 节点即可满足并发规模测算需求。",
+              "24 × NVIDIA A800 80GB PCIe（FP16合计 7488 TFLOPS），GPU密集负载下算力余量充足。",
+              "综合适配度 81.3 分（性能70.2/性价比100/功耗60/维保95），性价比表现突出；总价 ￥2,994,000 处于预算区间高位。"
+            ]
+          }
+        ],
+        "alternative": null,
+        "filterNotes": [
+          "按GPU需求筛选NVIDIA数据中心卡类机型后剩 5 款。",
+          "按CPU/内存/GPU/存储性能约束完成集群规模换算，5 款机型可满足容量需求。",
+          "其中 1 款总价落在预算区间内且满足交付周期（≤不限），纳入评分排序。"
+        ],
+        "budgetRelaxed": "none",
+        "valueRanking": [
+          {
+            "rank": 1,
+            "name": "浪潮 NF5468A5",
+            "valueIndex": 1.9,
+            "totalScore": 81.3,
+            "totalPrice": 2994000
+          }
+        ],
+        "stats": {
+          "machineTotal": 22,
+          "feasible": 1
+        },
+        "rulesVersion": "1.0",
+        "computedAt": "2026-11-02T08:06:03.522Z"
+      },
+      "stages": [
+        {
+          "name": "参数校验与回显",
+          "pct": 15
+        },
+        {
+          "name": "负载画像映射",
+          "pct": 35
+        },
+        {
+          "name": "容量换算（CPU/内存/GPU/存储/带宽）",
+          "pct": 55
+        },
+        {
+          "name": "机型参数库匹配筛选",
+          "pct": 75
+        },
+        {
+          "name": "四维加权评分排序",
+          "pct": 90
+        },
+        {
+          "name": "报告生成",
+          "pct": 100
+        }
+      ],
+      "creatorUserId": null,
+      "createdAt": "2026-11-02T08:06:03.526Z"
+    },
+    {
+      "id": "TMVYZ5O3313D1FE",
+      "form": {
+        "scenario": "gpu-train",
+        "concurrentUsers": 2000,
+        "workloadDesc": "",
+        "cpuCoresMin": null,
+        "cpuCoresMax": null,
+        "cpuFreqMin": null,
+        "gpuRequirement": "nvidia-dc",
+        "gpuCount": 8,
+        "memoryGB": 512,
+        "storageValue": 100,
+        "storageUnit": "TB",
+        "nicMbps": null,
+        "budgetMin": 1500000,
+        "budgetMax": 3000000,
+        "deliveryCycle": "any",
+        "remark": ""
+      },
+      "result": {
+        "sizing": {
+          "profile": "gpu",
+          "scenarioConf": {
+            "profile": "gpu",
+            "coresPer1kUsers": 16,
+            "memGBPerCore": 8,
+            "gpuPer1kUsers": 4,
+            "storageGBPer1kUsers": 500,
+            "storageMultiplier": 1.5,
+            "nicMbpsPer1kUsers": 50
+          },
+          "recCores": 42,
+          "recMemGB": 512,
+          "recGpuCount": 8,
+          "gpuClassRequired": "nvidia-dc",
+          "recStorageGB": 154800,
+          "recNicMbps": 100,
+          "scaleLevel": "中型（1千~1万并发）",
+          "derivations": [
+            {
+              "item": "推荐CPU总核数",
+              "value": "42 核",
+              "basis": "每千并发×16核 ×(1+30%余量)"
+            },
+            {
+              "item": "推荐内存容量",
+              "value": "512 GB",
+              "basis": "42核 × 8 GB/核，并取用户内存要求与换算值的较大者"
+            },
+            {
+              "item": "推荐GPU卡数",
+              "value": "8 张",
+              "basis": "每千并发×4张，并满足用户GPU数量要求"
+            },
+            {
+              "item": "推荐存储容量",
+              "value": "154800 GB（约 151.2 TB）",
+              "basis": "用户存储 × 1.5（GPU训练画像系数）+ 系统盘 200 GB + 每千并发×500 GB"
+            },
+            {
+              "item": "推荐网络带宽",
+              "value": "≥ 100 Mbps",
+              "basis": "每千并发×50 Mbps，与用户带宽要求取较大者"
+            }
+          ]
+        },
+        "profileLabel": "GPU密集型",
+        "candidates": [
+          {
+            "machine": {
+              "id": "inspur-nf5468a5",
+              "brand": "浪潮",
+              "model": "NF5468A5",
+              "category": "GPU服务器",
+              "cpuArch": "x86",
+              "cpu": {
+                "model": "Intel Xeon Platinum 8352Y",
+                "count": 2,
+                "coresPerCPU": 32,
+                "freqGHz": 2.2
+              },
+              "gpu": {
+                "model": "NVIDIA A800 80GB PCIe",
+                "count": 8,
+                "vramGB": 80,
+                "fp16Tflops": 312,
+                "class": "nvidia-dc"
+              },
+              "memory": {
+                "stdGB": 512,
+                "maxGB": 4096,
+                "slots": 32,
+                "type": "DDR4-3200 ECC"
+              },
+              "storage": {
+                "stdTB": 7.68,
+                "maxTB": 61.44,
+                "type": "NVMe SSD"
+              },
+              "network": {
+                "model": "2×25GbE + 2×200G InfiniBand",
+                "nicGbps": 25
+              },
+              "powerW": 5500,
+              "price": 998000,
+              "warrantyYears": 3,
+              "deliveryWeeks": 6,
+              "tags": [
+                "gpu-train",
+                "render"
+              ],
+              "status": "active",
+              "note": "8卡A800训练服务器，支持大规模分布式训练"
+            },
+            "cluster": {
+              "nodes": 3,
+              "totalCores": 192,
+              "totalMemGB": 1536,
+              "totalGpu": 24,
+              "totalGpuFlops": 7488,
+              "perNodeStorageTB": 50.4,
+              "totalStorageTB": 151.2,
+              "totalNicMbps": 75000,
+              "totalPrice": 2994000,
+              "totalPowerKW": 16.5
+            },
+            "scores": {
+              "performance": 70.2,
+              "value": 100,
+              "power": 60,
+              "service": 95,
+              "total": 81.3,
+              "valueIndex": 1.9
+            },
+            "fitRatios": {
+              "cpu": 4.57,
+              "mem": 3,
+              "gpu": 3,
+              "storage": 1,
+              "nic": 750
+            },
+            "reasons": [
+              "CPU覆盖需求 457%、内存覆盖 300%、存储覆盖 100%，3 节点即可满足并发规模测算需求。",
+              "24 × NVIDIA A800 80GB PCIe（FP16合计 7488 TFLOPS），GPU密集负载下算力余量充足。",
+              "综合适配度 81.3 分（性能70.2/性价比100/功耗60/维保95），性价比表现突出；总价 ￥2,994,000 处于预算区间高位。"
+            ]
+          }
+        ],
+        "top3": [
+          {
+            "machine": {
+              "id": "inspur-nf5468a5",
+              "brand": "浪潮",
+              "model": "NF5468A5",
+              "category": "GPU服务器",
+              "cpuArch": "x86",
+              "cpu": {
+                "model": "Intel Xeon Platinum 8352Y",
+                "count": 2,
+                "coresPerCPU": 32,
+                "freqGHz": 2.2
+              },
+              "gpu": {
+                "model": "NVIDIA A800 80GB PCIe",
+                "count": 8,
+                "vramGB": 80,
+                "fp16Tflops": 312,
+                "class": "nvidia-dc"
+              },
+              "memory": {
+                "stdGB": 512,
+                "maxGB": 4096,
+                "slots": 32,
+                "type": "DDR4-3200 ECC"
+              },
+              "storage": {
+                "stdTB": 7.68,
+                "maxTB": 61.44,
+                "type": "NVMe SSD"
+              },
+              "network": {
+                "model": "2×25GbE + 2×200G InfiniBand",
+                "nicGbps": 25
+              },
+              "powerW": 5500,
+              "price": 998000,
+              "warrantyYears": 3,
+              "deliveryWeeks": 6,
+              "tags": [
+                "gpu-train",
+                "render"
+              ],
+              "status": "active",
+              "note": "8卡A800训练服务器，支持大规模分布式训练"
+            },
+            "cluster": {
+              "nodes": 3,
+              "totalCores": 192,
+              "totalMemGB": 1536,
+              "totalGpu": 24,
+              "totalGpuFlops": 7488,
+              "perNodeStorageTB": 50.4,
+              "totalStorageTB": 151.2,
+              "totalNicMbps": 75000,
+              "totalPrice": 2994000,
+              "totalPowerKW": 16.5
+            },
+            "scores": {
+              "performance": 70.2,
+              "value": 100,
+              "power": 60,
+              "service": 95,
+              "total": 81.3,
+              "valueIndex": 1.9
+            },
+            "fitRatios": {
+              "cpu": 4.57,
+              "mem": 3,
+              "gpu": 3,
+              "storage": 1,
+              "nic": 750
+            },
+            "reasons": [
+              "CPU覆盖需求 457%、内存覆盖 300%、存储覆盖 100%，3 节点即可满足并发规模测算需求。",
+              "24 × NVIDIA A800 80GB PCIe（FP16合计 7488 TFLOPS），GPU密集负载下算力余量充足。",
+              "综合适配度 81.3 分（性能70.2/性价比100/功耗60/维保95），性价比表现突出；总价 ￥2,994,000 处于预算区间高位。"
+            ]
+          }
+        ],
+        "alternative": null,
+        "filterNotes": [
+          "按GPU需求筛选NVIDIA数据中心卡类机型后剩 5 款。",
+          "按CPU/内存/GPU/存储性能约束完成集群规模换算，5 款机型可满足容量需求。",
+          "其中 1 款总价落在预算区间内且满足交付周期（≤不限），纳入评分排序。"
+        ],
+        "budgetRelaxed": "none",
+        "valueRanking": [
+          {
+            "rank": 1,
+            "name": "浪潮 NF5468A5",
+            "valueIndex": 1.9,
+            "totalScore": 81.3,
+            "totalPrice": 2994000
+          }
+        ],
+        "stats": {
+          "machineTotal": 22,
+          "feasible": 1
+        },
+        "rulesVersion": "1.0",
+        "computedAt": "2026-11-02T08:06:03.567Z"
+      },
+      "stages": [
+        {
+          "name": "参数校验与回显",
+          "pct": 15
+        },
+        {
+          "name": "负载画像映射",
+          "pct": 35
+        },
+        {
+          "name": "容量换算（CPU/内存/GPU/存储/带宽）",
+          "pct": 55
+        },
+        {
+          "name": "机型参数库匹配筛选",
+          "pct": 75
+        },
+        {
+          "name": "四维加权评分排序",
+          "pct": 90
+        },
+        {
+          "name": "报告生成",
+          "pct": 100
+        }
+      ],
+      "creatorUserId": null,
+      "createdAt": "2026-11-02T08:06:03.567Z"
     }
   ]
 }

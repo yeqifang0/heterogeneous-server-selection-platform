@@ -490,11 +490,14 @@
     session: 'ssp_static_session', machines: 'ssp_static_machines', rules: 'ssp_static_rules'
   };
 
+  // 存储统一走 api.js 的容错层（内嵌浏览器禁用 localStorage 时自动降级为内存存储）
+  function store() { return window.SSPStorage.local; }
+
   function lsGet(key, fallback) {
-    try { const v = JSON.parse(localStorage.getItem(key)); return v === null || v === undefined ? fallback : v; }
+    try { const v = JSON.parse(store().getItem(key)); return v === null || v === undefined ? fallback : v; }
     catch (e) { return fallback; }
   }
-  function lsSet(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+  function lsSet(key, val) { try { store().setItem(key, JSON.stringify(val)); } catch (e) { /* 降级为内存存储 */ } }
 
   const ADMIN_USER = { id: 'u-admin', username: 'admin', role: 'admin', displayName: '平台管理员', createdAt: '2026-11-01T00:00:00.000Z', password: 'Admin@123' };
 
@@ -630,7 +633,7 @@
       return { token: currentToken(), user: pub };
     }
     if (method === 'POST' && path === '/api/auth/logout') {
-      localStorage.removeItem(LS_KEYS.session);
+      try { store().removeItem(LS_KEYS.session); } catch (e) { /* ignore */ }
       return { ok: true };
     }
     if (method === 'GET' && path === '/api/auth/me') {

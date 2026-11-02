@@ -1,0 +1,220 @@
+{
+  "version": "1.0",
+  "updatedAt": "2026-11-02T05:20:33.380Z",
+  "options": {
+    "scenarios": [
+      {
+        "value": "web",
+        "label": "通用Web/应用服务"
+      },
+      {
+        "value": "database",
+        "label": "数据库/中间件"
+      },
+      {
+        "value": "gpu-train",
+        "label": "GPU训练/推理"
+      },
+      {
+        "value": "render",
+        "label": "渲染/视觉计算"
+      },
+      {
+        "value": "storage",
+        "label": "存储/文件服务"
+      },
+      {
+        "value": "edge",
+        "label": "边缘接入"
+      },
+      {
+        "value": "other",
+        "label": "其他"
+      }
+    ],
+    "gpuRequirements": [
+      {
+        "value": "none",
+        "label": "无"
+      },
+      {
+        "value": "unlimited",
+        "label": "不限（按需推荐）"
+      },
+      {
+        "value": "nvidia-dc",
+        "label": "NVIDIA数据中心卡（A100/A800/H100/H800级）"
+      },
+      {
+        "value": "ascn",
+        "label": "国产AI加速卡（昇腾910B/深算DCU级）"
+      },
+      {
+        "value": "nvidia-graphics",
+        "label": "专业图形卡（RTX系列）"
+      }
+    ],
+    "deliveryCycles": [
+      {
+        "value": "week",
+        "label": "一周内",
+        "allowedWeeks": 1
+      },
+      {
+        "value": "month",
+        "label": "一月内",
+        "allowedWeeks": 4
+      },
+      {
+        "value": "any",
+        "label": "不限",
+        "allowedWeeks": 999
+      }
+    ],
+    "profiles": [
+      {
+        "value": "compute",
+        "label": "计算密集型"
+      },
+      {
+        "value": "io",
+        "label": "IO密集型"
+      },
+      {
+        "value": "mixed",
+        "label": "混合负载型"
+      },
+      {
+        "value": "gpu",
+        "label": "GPU密集型"
+      }
+    ]
+  },
+  "scenarioProfiles": {
+    "web": {
+      "profile": "mixed",
+      "coresPer1kUsers": 8,
+      "memGBPerCore": 4,
+      "gpuPer1kUsers": 0,
+      "storageGBPer1kUsers": 50,
+      "storageMultiplier": 1.2,
+      "nicMbpsPer1kUsers": 10
+    },
+    "database": {
+      "profile": "io",
+      "coresPer1kUsers": 12,
+      "memGBPerCore": 8,
+      "gpuPer1kUsers": 0,
+      "storageGBPer1kUsers": 200,
+      "storageMultiplier": 2,
+      "nicMbpsPer1kUsers": 20
+    },
+    "gpu-train": {
+      "profile": "gpu",
+      "coresPer1kUsers": 16,
+      "memGBPerCore": 8,
+      "gpuPer1kUsers": 4,
+      "storageGBPer1kUsers": 500,
+      "storageMultiplier": 1.5,
+      "nicMbpsPer1kUsers": 50
+    },
+    "render": {
+      "profile": "gpu",
+      "coresPer1kUsers": 10,
+      "memGBPerCore": 6,
+      "gpuPer1kUsers": 3,
+      "storageGBPer1kUsers": 300,
+      "storageMultiplier": 1.5,
+      "nicMbpsPer1kUsers": 30
+    },
+    "storage": {
+      "profile": "io",
+      "coresPer1kUsers": 4,
+      "memGBPerCore": 4,
+      "gpuPer1kUsers": 0,
+      "storageGBPer1kUsers": 1000,
+      "storageMultiplier": 3,
+      "nicMbpsPer1kUsers": 40
+    },
+    "edge": {
+      "profile": "mixed",
+      "coresPer1kUsers": 3,
+      "memGBPerCore": 2,
+      "gpuPer1kUsers": 0,
+      "storageGBPer1kUsers": 30,
+      "storageMultiplier": 1.2,
+      "nicMbpsPer1kUsers": 5
+    },
+    "other": {
+      "profile": "mixed",
+      "coresPer1kUsers": 6,
+      "memGBPerCore": 4,
+      "gpuPer1kUsers": 0,
+      "storageGBPer1kUsers": 100,
+      "storageMultiplier": 1.3,
+      "nicMbpsPer1kUsers": 10
+    }
+  },
+  "sizing": {
+    "minCores": 4,
+    "maxCores": 8192,
+    "minMemGB": 16,
+    "maxMemGB": 262144,
+    "headroomRatio": 0.3,
+    "systemStorageGB": 200,
+    "nicFloorMbps": 100,
+    "maxNodes": 256
+  },
+  "weights": {
+    "performance": 0.4,
+    "value": 0.3,
+    "power": 0.15,
+    "service": 0.15
+  },
+  "powerPrice": {
+    "electricityPricePerKwh": 0.8,
+    "pue": 1.3
+  },
+  "pricing": {
+    "quick": {
+      "id": "quick",
+      "name": "快速测算",
+      "price": 49,
+      "unit": "次",
+      "desc": "解锁完整测算结果：Top3推荐配置、适配度得分、多维度对比与选型建议（不含PDF正式报告）"
+    },
+    "report": {
+      "id": "report",
+      "name": "正式选型报告",
+      "price": 199,
+      "unit": "份",
+      "desc": "六章完整选型测算报告在线查看 + PDF版本下载，含负载画像分析、横向对比矩阵、性价比排序与风险提示"
+    }
+  },
+  "reportTemplate": {
+    "assumptions": "1. 容量换算基于平台内置负载画像系数（每千并发所需CPU核数、每核内存、每千并发GPU卡数、存储与带宽系数），并已计入30%性能余量；\n2. 机型参数库中的配置与单价为厂商公开资料整理的参考值，实际采购价格随配置、批量与渠道浮动；\n3. 集群规模按单节点满足CPU/内存/GPU/存储任一瓶颈维度计算所需节点数，并向上取整；\n4. 功耗按整机额定功率估算，未计入网络设备与制冷辅助功耗，年电费按 0.8 元/度、PUE 1.3、全年满载运行估算上限；\n5. 适配度得分为相对参考值，仅用于候选方案间的横向比较，不代表绝对性能承诺。",
+    "disclaimer": "本报告由异构服务器选型配置与算力匹配测算平台 V1.0 基于用户输入与平台参数库自动生成，仅作为服务器选型的辅助参考，不构成任何采购承诺、性能保证或投资建议。报告中的品牌、型号与价格信息来源于公开资料，可能与最新在售配置存在差异；实际采购决策请以厂商正式报价与合同为准。平台不提供现场部署、上架布线、整机安装调试等服务。"
+  },
+  "scaleLevels": [
+    {
+      "min": 0,
+      "max": 999,
+      "label": "小型（1千并发以内）"
+    },
+    {
+      "min": 1000,
+      "max": 9999,
+      "label": "中型（1千~1万并发）"
+    },
+    {
+      "min": 10000,
+      "max": 99999,
+      "label": "大型（1万~10万并发）"
+    },
+    {
+      "min": 100000,
+      "max": 10000000,
+      "label": "超大型（10万并发以上）"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "orders": [
+    {
+      "id": "O9732c7b51f5bf336",
+      "orderNo": "SO20261102857733",
+      "userId": "u-5942a140b70cccb5",
+      "username": "e2e_mvysvhqg",
+      "taskId": "TMVYSVHQ2B39DB9",
+      "productId": "quick",
+      "productName": "快速测算",
+      "amount": 49,
+      "status": "paid",
+      "createdAt": "2026-11-02T05:10:11.120Z",
+      "paidAt": "2026-11-02T05:10:11.124Z",
+      "payMethod": "模拟支付（演示环境）",
+      "reportVersion": "V1.0"
+    },
+    {
+      "id": "O3e3f8440cd63aaaa",
+      "orderNo": "SO20261102840232",
+      "userId": "u-5942a140b70cccb5",
+      "username": "e2e_mvysvhqg",
+      "taskId": "TMVYSVHQ2B39DB9",
+      "productId": "report",
+      "productName": "正式选型报告",
+      "amount": 199,
+      "status": "paid",
+      "createdAt": "2026-11-02T05:10:11.131Z",
+      "paidAt": "2026-11-02T05:10:11.133Z",
+      "payMethod": "模拟支付（演示环境）",
+      "reportVersion": "V1.0"
+    },
+    {
+      "id": "Of36a8d1183f80bac",
+      "orderNo": "SO20261102527884",
+      "userId": "u-b87600dc40c80619",
+      "username": "gui_test_mvyt3hjl",
+      "taskId": "TMVYT25FEA7565D",
+      "productId": "report",
+      "productName": "正式选型报告",
+      "amount": 199,
+      "status": "paid",
+      "createdAt": "2026-11-02T05:16:32.021Z",
+      "paidAt": "2026-11-02T05:16:43.238Z",
+      "payMethod": "模拟支付（演示环境）",
+      "reportVersion": "V1.0"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>异构服务器选型配置与算力匹配测算平台 V1.0</title>
+  <meta name="description" content="录入业务负载与预算，自动比对多品牌异构服务器配置，输出算力匹配度、配置组合与性价比排序，生成选型测算报告。">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231B5CFF'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>S</text></svg>">
+</head>
+<body>
+  <canvas id="fx-bg"></canvas>
+  <header class="topbar no-print">
+    <div class="topbar-inner">
+      <a class="brand" href="#/">
+        <span class="brand-logo">S</span>
+        <span class="brand-name">异构服务器选型测算平台<em>V1.0</em></span>
+      </a>
+      <nav class="nav" id="nav">
+        <a href="#/" data-nav="home">首页</a>
+        <a href="#/form" data-nav="form">开始测算</a>
+        <a href="#/orders" data-nav="orders">我的订单</a>
+        <a href="#/admin" data-nav="admin" id="nav-admin" hidden>管理后台</a>
+      </nav>
+      <div class="user-area" id="user-area"></div>
+    </div>
+  </header>
+
+  <main id="view" class="container"></main>
+
+  <footer class="footer no-print">
+    <div class="container">
+      <p>异构服务器选型配置与算力匹配测算平台 V1.0 · 本平台仅输出配置选型与测算建议，不提供现场部署、上架布线、整机安装调试等服务；报告为选型辅助，最终采购决策由用户自行判断。</p>
+      <p class="dim">机型参数与单价来源于公开资料整理，实际以厂商正式报价为准 · 演示环境支付为模拟支付</p>
+    </div>
+  </footer>
+
+  <div id="toast-box" class="no-print"></div>
+  <div id="modal-root" class="no-print"></div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/charts.js"></script>
+  <script src="/js/fx.js"></script>
+  <script src="/js/app.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

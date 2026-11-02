@@ -1,0 +1,49 @@
+{
+  "users": [
+    {
+      "id": "u-admin",
+      "username": "admin",
+      "role": "admin",
+      "salt": "998585b8ba5e54adeff3bc0c2e348303",
+      "hash": "49275979979457a888734a08e39c3e7128ee214272f6831bd072403ae906344a",
+      "displayName": "平台管理员",
+      "createdAt": "2026-11-01T08:16:29.380Z"
+    },
+    {
+      "id": "u-5942a140b70cccb5",
+      "username": "e2e_mvysvhqg",
+      "role": "user",
+      "displayName": "测试用户",
+      "salt": "852e613977263e7f6a15adafc4f99c4c",
+      "hash": "1dbf9d356aaff8e242f20e68befd47950b8f5b3d353579111bf2870dec7a0be6",
+      "createdAt": "2026-11-02T05:10:11.115Z"
+    },
+    {
+      "id": "u-b87600dc40c80619",
+      "username": "gui_test_mvyt3hjl",
+      "role": "user",
+      "displayName": "GUI测试用户",
+      "salt": "10a3a6a1d4013c17671976f5b38fe2ef",
+      "hash": "92ad28e562afb776e9ab32e172146362a7087a4f3d8703831c400ca983699c3d",
+      "createdAt": "2026-11-02T05:16:24.290Z"
+    }
+  ],
+  "sessions": {
+    "6b331af9340111852bc8a097207ae01dee17e4fefd394c01": {
+      "userId": "u-5942a140b70cccb5",
+      "expiresAt": 1794201011117
+    },
+    "13009bd9c01a9632bb6db1504c5e532e311f0e78cd077ddf": {
+      "userId": "u-admin",
+      "expiresAt": 1794201011325
+    },
+    "2780cfaa59960f287b00d2b161d00db3e55aabc8f7b48d06": {
+      "userId": "u-admin",
+      "expiresAt": 1794201526303
+    },
+    "3942dcff0d013107d2a00ce9b141bbc6bd0ecdd046547a31": {
+      "userId": "u-admin",
+      "expiresAt": 1794202200271
+    }
+  }
+}

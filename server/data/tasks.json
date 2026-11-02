@@ -1,0 +1,1554 @@
+{
+  "tasks": [
+    {
+      "id": "TMVYSVHQ2B39DB9",
+      "form": {
+        "scenario": "gpu-train",
+        "concurrentUsers": 3000,
+        "workloadDesc": "大模型分布式训练，千卡级预留",
+        "cpuFreqMin": 2,
+        "gpuRequirement": "nvidia-dc",
+        "gpuCount": 8,
+        "memoryGB": 1024,
+        "storageValue": 20,
+        "storageUnit": "TB",
+        "nicMbps": 10000,
+        "budgetMin": 800000,
+        "budgetMax": 3000000,
+        "deliveryCycle": "any",
+        "remark": "E2E测试"
+      },
+      "result": {
+        "sizing": {
+          "profile": "gpu",
+          "scenarioConf": {
+            "profile": "gpu",
+            "coresPer1kUsers": 16,
+            "memGBPerCore": 8,
+            "gpuPer1kUsers": 4,
+            "storageGBPer1kUsers": 500,
+            "storageMultiplier": 1.5,
+            "nicMbpsPer1kUsers": 50
+          },
+          "recCores": 63,
+          "recMemGB": 1024,
+          "recGpuCount": 12,
+          "gpuClassRequired": "nvidia-dc",
+          "recStorageGB": 32420,
+          "recNicMbps": 10000,
+          "scaleLevel": "中型（1千~1万并发）",
+          "derivations": [
+            {
+              "item": "推荐CPU总核数",
+              "value": "63 核",
+              "basis": "每千并发×16核 ×(1+30%余量)"
+            },
+            {
+              "item": "推荐内存容量",
+              "value": "1024 GB",
+              "basis": "63核 × 8 GB/核，并取用户内存要求与换算值的较大者"
+            },
+            {
+              "item": "推荐GPU卡数",
+              "value": "12 张",
+              "basis": "每千并发×4张，并满足用户GPU数量要求"
+            },
+            {
+              "item": "推荐存储容量",
+              "value": "32420 GB（约 31.7 TB）",
+              "basis": "用户存储 × 1.5（GPU训练画像系数）+ 系统盘 200 GB + 每千并发×500 GB"
+            },
+            {
+              "item": "推荐网络带宽",
+              "value": "≥ 10000 Mbps",
+              "basis": "每千并发×50 Mbps，与用户带宽要求取较大者"
+            }
+          ]
+        },
+        "profileLabel": "GPU密集型",
+        "candidates": [
+          {
+            "machine": {
+              "id": "lenovo-sr675v3",
+              "brand": "联想",
+              "model": "ThinkSystem SR675 V3",
+              "category": "GPU服务器",
+              "cpuArch": "x86-AMD",
+              "cpu": {
+                "model": "AMD EPYC 9354",
+                "count": 2,
+                "coresPerCPU": 84,
+                "freqGHz": 3.25
+              },
+              "gpu": {
+                "model": "NVIDIA H800 80GB PCIe",
+                "count": 8,
+                "vramGB": 80,
+                "fp16Tflops": 756,
+                "class": "nvidia-dc"
+              },
+              "memory": {
+                "stdGB": 1024,
+                "maxGB": 6144,
+                "slots": 24,
+                "type": "DDR5-4800 ECC"
+              },
+              "storage": {
+                "stdTB": 15.36,
+                "maxTB": 61.44,
+                "type": "NVMe SSD"
+              },
+              "network": {
+                "model": "4×200G InfiniBand",
+                "nicGbps": 25
+              },
+              "powerW": 6200,
+              "price": 1298000,
+              "warrantyYears": 3,
+              "deliveryWeeks": 8,
+              "tags": [
+                "gpu-train",
+                "render"
+              ],
+              "status": "active",
+              "note": "AMD双路+8卡H800，高核心数训练平台"
+            },
+            "cluster": {
+              "nodes": 2,
+              "totalCores": 336,
+              "totalMemGB": 2048,
+              "totalGpu": 16,
+              "totalGpuFlops": 12096,
+              "perNodeStorageTB": 15.9,
+              "totalStorageTB": 31.8,
+              "totalNicMbps": 50000,
+              "totalPrice": 2596000,
+              "totalPowerKW": 12.4
+            },
+            "scores": {
+              "performance": 74.8,
+              "value": 100,
+              "power": 60,
+              "service": 95,
+              "total": 83.2,
+              "valueIndex": 2.74
+            },
+            "fitRatios": {
+              "cpu": 5.33,
+              "mem": 2,
+              "gpu": 1.33,
+              "storage": 1,
+              "nic": 5
+            },
+            "reasons": [
+              "CPU覆盖需求 533%、内存覆盖 200%、存储覆盖 100%，2 节点即可满足并发规模测算需求。",
+              "16 × NVIDIA H800 80GB PCIe（FP16合计 12096 TFLOPS），GPU密集负载下算力余量充足。",
+              "综合适配度 83.2 分（性能74.8/性价比100/功耗60/维保95），性价比表现突出；总价 ¥2,596,000 处于预算区间高位。"
+            ]
+          },
+          {
+            "machine": {
+              "id": "xfusion-g5500v7",
+              "brand": "超聚变",
+              "model": "FusionServer G5500 V7",
+              "category": "GPU服务器",
+              "cpuArch": "x86-AMD",
+              "cpu": {
+                "model": "AMD EPYC 7543",
+                "count": 2,
+                "coresPerCPU": 64,
+                "freqGHz": 2.8
+              },
+              "gpu": {
+                "model": "NVIDIA A800 80GB PCIe",
+                "count": 8,
+                "vramGB": 80,
+                "fp16Tflops": 312,
+                "class": "nvidia-dc"
+              },
+              "memory": {
+                "stdGB": 1024,
+                "maxGB": 4096,
+                "slots": 24,
+                "type": "DDR4-3200 ECC"
+              },
+              "storage": {
+                "stdTB": 15.36,
+                "maxTB": 61.44,
+                "type": "NVMe SSD"
+              },
+              "network": {
+                "model": "4×200G InfiniBand",
+                "nicGbps": 25
+              },
+              "powerW": 6000,
+              "price": 1058000,
+              "warrantyYears": 3,
+              "deliveryWeeks": 7,
+              "tags": [
+                "gpu-train",
+                "render"
+              ],
+              "status": "active",
+              "note": "AMD高核心数+8卡A800，训练渲染兼顾"
+            },
+            "cluster": {
+              "nodes": 2,
+              "totalCores": 256,
+              "totalMemGB": 2048,
+              "totalGpu": 16,
+              "totalGpuFlops": 4992,
+              "perNodeStorageTB": 15.9,
+              "totalStorageTB": 31.8,
+              "totalNicMbps": 50000,
+              "totalPrice": 2116000,
+              "totalPowerKW": 12
+            },
+            "scores": {
+              "performance": 74.8,
+              "value": 83.8,
+              "power": 71.4,
+              "service": 95,
+              "total": 80,
+              "valueIndex": 2.32
+            },
+            "fitRatios": {
+              "cpu": 4.06,
+              "mem": 2,
+              "gpu": 1.33,
+              "storage": 1,
+              "nic": 5
+            },
+            "reasons": [
+              "CPU覆盖需求 406%、内存覆盖 200%、存储覆盖 100%，2 节点即可满足并发规模测算需求。",
+              "16 × NVIDIA A800 80GB PCIe（FP16合计 4992 TFLOPS），GPU密集负载下算力余量充足。",
+              "综合适配度 80 分（性能74.8/性价比83.8/功耗71.4/维保95），性能匹配表现突出；总价 ¥2,116,000 处于预算区间中位。"
+            ]
+          },
+          {
+            "machine": {
+              "id": "inspur-nf5468a5",
+              "brand": "浪潮",
+              "model": "NF5468A5",
+              "category": "GPU服务器",
+              "cpuArch": "x86",
+              "cpu": {
+                "model": "Intel Xeon Platinum 8352Y",
+                "count": 2,
+                "coresPerCPU": 32,
+                "freqGHz": 2.2
+              },
+              "gpu": {
+                "model": "NVIDIA A800 80GB PCIe",
+                "count": 8,
+                "vramGB": 80,
+                "fp16Tflops": 312,
+                "class": "nvidia-dc"
+              },
+              "memory": {
+                "stdGB": 512,
+                "maxGB": 4096,
+                "slots": 32,
+                "type": "DDR4-3200 ECC"
+              },
+              "storage": {
+                "stdTB": 7.68,
+                "maxTB": 61.44,
+                "type": "NVMe SSD"
+              },
+              "network": {
+                "model": "2×25GbE + 2×200G InfiniBand",
+                "nicGbps": 25
+              },
+              "powerW": 5500,
+              "price": 998000,
+              "warrantyYears": 3,
+              "deliveryWeeks": 6,
+              "tags": [
+                "gpu-train",
+                "render"
+              ],
+              "status": "active",
+              "note": "8卡A800训练服务器，支持大规模分布式训练"
+            },
+            "cluster": {
+              "nodes": 2,
+              "totalCores": 128,
+              "totalMemGB": 1024,
+              "totalGpu": 16,
+              "totalGpuFlops": 4992,
+              "perNodeStorageTB": 15.9,
+              "totalStorageTB": 31.8,
+              "totalNicMbps": 50000,
+              "totalPrice": 1996000,
+              "totalPowerKW": 11
+            },
+            "scores": {
+              "performance": 81.8,
+              "value": 55,
+              "power": 100,
+              "service": 95,
+              "total": 78.5,
+              "valueIndex": 1.56
+            },
+            "fitRatios": {
+              "cpu": 2.03,
+              "mem": 1,
+              "gpu": 1.33,
+              "storage": 1,
+              "nic": 5
+            },
+            "reasons": [
+              "CPU覆盖需求 203%、内存覆盖 100%、存储覆盖 100%，2 节点即可满足并发规模测算需求。",
+              "16 × NVIDIA A800 80GB PCIe（FP16合计 4992 TFLOPS），GPU密集负载下算力余量充足。",
+              "综合适配度 78.5 分（性能81.8/性价比55/功耗100/维保95），性能匹配表现突出；总价 ¥1,996,000 处于预算区间中位。"
+            ]
+          },
+          {
+            "machine": {
+              "id": "nettrix-x640g50",
+              "brand": "宁畅",
+              "model": "X640 G50",
+              "category": "GPU服务器",
+              "cpuArch": "x86",
+              "cpu": {
+                "model": "Intel Xeon Platinum 8462Y+",
+                "count": 2,
+                "coresPerCPU": 32,
+                "freqGHz": 2.7
+              },
+              "gpu": {
+                "model": "NVIDIA H800 80GB PCIe",
+                "count": 8,
+                "vramGB": 80,
+                "fp16Tflops": 756,
+                "class": "nvidia-dc"
+              },
+              "memory": {
+                "stdGB": 1024,
+                "maxGB": 6144,
+                "slots": 32,
+                "type": "DDR5-4800 ECC"
+              },
+              "storage": {
+                "stdTB": 15.36,
+                "maxTB": 61.44,
+                "type": "NVMe SSD"
+              },
+              "network": {
+                "model": "4×200G InfiniBand",
+                "nicGbps": 25
+              },
+              "powerW": 6100,
+              "price": 1188000,
+              "warrantyYears": 4,
+              "deliveryWeeks": 8,
+              "tags": [
+                "gpu-train",
+                "render"
+              ],
+              "status": "active",
+              "note": "8卡H800，训练推理均衡"
+            },
+            "cluster": {
+              "nodes": 2,
+              "totalCores": 128,
+              "totalMemGB": 2048,
+              "totalGpu": 16,
+              "totalGpuFlops": 12096,
+              "perNodeStorageTB": 15.9,
+              "totalStorageTB": 31.8,
+              "totalNicMbps": 50000,
+              "totalPrice": 2376000,
+              "totalPowerKW": 12.2
+            },
+            "scores": {
+              "performance": 74.8,
+              "value": 76.4,
+              "power": 65.7,
+              "service": 100,
+              "total": 77.7,
+              "valueIndex": 2.12
+            },
+            "fitRatios": {
+              "cpu": 2.03,
+              "mem": 2,
+              "gpu": 1.33,
+              "storage": 1,
+              "nic": 5
+            },
+            "reasons": [
+              "CPU覆盖需求 203%、内存覆盖 200%、存储覆盖 100%，2 节点即可满足并发规模测算需求。",
+              "16 × NVIDIA H800 80GB PCIe（FP16合计 12096 TFLOPS），GPU密集负载下算力余量充足。",
+              "综合适配度 77.7 分（性能74.8/性价比76.4/功耗65.7/维保100），性能匹配表现突出；总价 ¥2,376,000 处于预算区间中位。"
+            ]
+          }
+        ],
+        "top3": [
+          {
+            "machine": {
+              "id": "lenovo-sr675v3",
+              "brand": "联想",
+              "model": "ThinkSystem SR675 V3",
+              "category": "GPU服务器",
+              "cpuArch": "x86-AMD",
+              "cpu": {
+                "model": "AMD EPYC 9354",
+                "count": 2,
+                "coresPerCPU": 84,
+                "freqGHz": 3.25
+              },
+              "gpu": {
+                "model": "NVIDIA H800 80GB PCIe",
+                "count": 8,
+                "vramGB": 80,
+                "fp16Tflops": 756,
+                "class": "nvidia-dc"
+              },
+              "memory": {
+                "stdGB": 1024,
+                "maxGB": 6144,
+                "slots": 24,
+                "type": "DDR5-4800 ECC"
+              },
+              "storage": {
+                "stdTB": 15.36,
+                "maxTB": 61.44,
+                "type": "NVMe SSD"
+              },
+              "network": {
+                "model": "4×200G InfiniBand",
+                "nicGbps": 25
+              },
+              "powerW": 6200,
+              "price": 1298000,
+              "warrantyYears": 3,
+              "deliveryWeeks": 8,
+              "tags": [
+                "gpu-train",
+                "render"
+              ],
+              "status": "active",
+              "note": "AMD双路+8卡H800，高核心数训练平台"
+            },
+            "cluster": {
+              "nodes": 2,
+              "totalCores": 336,
+              "totalMemGB": 2048,
+              "totalGpu": 16,
+              "totalGpuFlops": 12096,
+              "perNodeStorageTB": 15.9,
+              "totalStorageTB": 31.8,
+              "totalNicMbps": 50000,
+              "totalPrice": 2596000,
+              "totalPowerKW": 12.4
+            },
+            "scores": {
+              "performance": 74.8,
+              "value": 100,
+              "power": 60,
+              "service": 95,
+              "total": 83.2,
+              "valueIndex": 2.74
+            },
+            "fitRatios": {
+              "cpu": 5.33,
+              "mem": 2,
+              "gpu": 1.33,
+              "storage": 1,
+              "nic": 5
+            },
+            "reasons": [
+              "CPU覆盖需求 533%、内存覆盖 200%、存储覆盖 100%，2 节点即可满足并发规模测算需求。",
+              "16 × NVIDIA H800 80GB PCIe（FP16合计 12096 TFLOPS），GPU密集负载下算力余量充足。",
+              "综合适配度 83.2 分（性能74.8/性价比100/功耗60/维保95），性价比表现突出；总价 ¥2,596,000 处于预算区间高位。"
+            ]
+          },
+          {
+            "machine": {
+              "id": "xfusion-g5500v7",
+              "brand": "超聚变",
+              "model": "FusionServer G5500 V7",
+              "category": "GPU服务器",
+              "cpuArch": "x86-AMD",
+              "cpu": {
+                "model": "AMD EPYC 7543",
+                "count": 2,
+                "coresPerCPU": 64,
+                "freqGHz": 2.8
+              },
+              "gpu": {
+                "model": "NVIDIA A800 80GB PCIe",
+                "count": 8,
+                "vramGB": 80,
+                "fp16Tflops": 312,
+                "class": "nvidia-dc"
+              },
+              "memory": {
+                "stdGB": 1024,
+                "maxGB": 4096,
+                "slots": 24,
+                "type": "DDR4-3200 ECC"
+              },
+              "storage": {
+                "stdTB": 15.36,
+                "maxTB": 61.44,
+                "type": "NVMe SSD"
+              },
+              "network": {
+                "model": "4×200G InfiniBand",
+                "nicGbps": 25
+              },
+              "powerW": 6000,
+              "price": 1058000,
+              "warrantyYears": 3,
+              "deliveryWeeks": 7,
+              "tags": [
+                "gpu-train",
+                "render"
+              ],
+              "status": "active",
+              "note": "AMD高核心数+8卡A800，训练渲染兼顾"
+            },
+            "cluster": {
+              "nodes": 2,
+              "totalCores": 256,
+              "totalMemGB": 2048,
+              "totalGpu": 16,
+              "totalGpuFlops": 4992,
+              "perNodeStorageTB": 15.9,
+              "totalStorageTB": 31.8,
+              "totalNicMbps": 50000,
+              "totalPrice": 2116000,
+              "totalPowerKW": 12
+            },
+            "scores": {
+              "performance": 74.8,
+              "value": 83.8,
+              "power": 71.4,
+              "service": 95,
+              "total": 80,
+              "valueIndex": 2.32
+            },
+            "fitRatios": {
+              "cpu": 4.06,
+              "mem": 2,
+              "gpu": 1.33,
+              "storage": 1,
+              "nic": 5
+            },
+            "reasons": [
+              "CPU覆盖需求 406%、内存覆盖 200%、存储覆盖 100%，2 节点即可满足并发规模测算需求。",
+              "16 × NVIDIA A800 80GB PCIe（FP16合计 4992 TFLOPS），GPU密集负载下算力余量充足。",
+              "综合适配度 80 分（性能74.8/性价比83.8/功耗71.4/维保95），性能匹配表现突出；总价 ¥2,116,000 处于预算区间中位。"
+            ]
+          },
+          {
+            "machine": {
+              "id": "inspur-nf5468a5",
+              "brand": "浪潮",
+              "model": "NF5468A5",
+              "category": "GPU服务器",
+              "cpuArch": "x86",
+              "cpu": {
+                "model": "Intel Xeon Platinum 8352Y",
+                "count": 2,
+                "coresPerCPU": 32,
+                "freqGHz": 2.2
+              },
+              "gpu": {
+                "model": "NVIDIA A800 80GB PCIe",
+                "count": 8,
+                "vramGB": 80,
+                "fp16Tflops": 312,
+                "class": "nvidia-dc"
+              },
+              "memory": {
+                "stdGB": 512,
+                "maxGB": 4096,
+                "slots": 32,
+                "type": "DDR4-3200 ECC"
+              },
+              "storage": {
+                "stdTB": 7.68,
+                "maxTB": 61.44,
+                "type": "NVMe SSD"
+              },
+              "network": {
+                "model": "2×25GbE + 2×200G InfiniBand",
+                "nicGbps": 25
+              },
+              "powerW": 5500,
+              "price": 998000,
+              "warrantyYears": 3,
+              "deliveryWeeks": 6,
+              "tags": [
+                "gpu-train",
+                "render"
+              ],
+              "status": "active",
+              "note": "8卡A800训练服务器，支持大规模分布式训练"
+            },
+            "cluster": {
+              "nodes": 2,
+              "totalCores": 128,
+              "totalMemGB": 1024,
+              "totalGpu": 16,
+              "totalGpuFlops": 4992,
+              "perNodeStorageTB": 15.9,
+              "totalStorageTB": 31.8,
+              "totalNicMbps": 50000,
+              "totalPrice": 1996000,
+              "totalPowerKW": 11
+            },
+            "scores": {
+              "performance": 81.8,
+              "value": 55,
+              "power": 100,
+              "service": 95,
+              "total": 78.5,
+              "valueIndex": 1.56
+            },
+            "fitRatios": {
+              "cpu": 2.03,
+              "mem": 1,
+              "gpu": 1.33,
+              "storage": 1,
+              "nic": 5
+            },
+            "reasons": [
+              "CPU覆盖需求 203%、内存覆盖 100%、存储覆盖 100%，2 节点即可满足并发规模测算需求。",
+              "16 × NVIDIA A800 80GB PCIe（FP16合计 4992 TFLOPS），GPU密集负载下算力余量充足。",
+              "综合适配度 78.5 分（性能81.8/性价比55/功耗100/维保95），性能匹配表现突出；总价 ¥1,996,000 处于预算区间中位。"
+            ]
+          }
+        ],
+        "alternative": {
+          "machine": {
+            "id": "nettrix-x640g50",
+            "brand": "宁畅",
+            "model": "X640 G50",
+            "category": "GPU服务器",
+            "cpuArch": "x86",
+            "cpu": {
+              "model": "Intel Xeon Platinum 8462Y+",
+              "count": 2,
+              "coresPerCPU": 32,
+              "freqGHz": 2.7
+            },
+            "gpu": {
+              "model": "NVIDIA H800 80GB PCIe",
+              "count": 8,
+              "vramGB": 80,
+              "fp16Tflops": 756,
+              "class": "nvidia-dc"
+            },
+            "memory": {
+              "stdGB": 1024,
+              "maxGB": 6144,
+              "slots": 32,
+              "type": "DDR5-4800 ECC"
+            },
+            "storage": {
+              "stdTB": 15.36,
+              "maxTB": 61.44,
+              "type": "NVMe SSD"
+            },
+            "network": {
+              "model": "4×200G InfiniBand",
+              "nicGbps": 25
+            },
+            "powerW": 6100,
+            "price": 1188000,
+            "warrantyYears": 4,
+            "deliveryWeeks": 8,
+            "tags": [
+              "gpu-train",
+              "render"
+            ],
+            "status": "active",
+            "note": "8卡H800，训练推理均衡"
+          },
+          "cluster": {
+            "nodes": 2,
+            "totalCores": 128,
+            "totalMemGB": 2048,
+            "totalGpu": 16,
+            "totalGpuFlops": 12096,
+            "perNodeStorageTB": 15.9,
+            "totalStorageTB": 31.8,
+            "totalNicMbps": 50000,
+            "totalPrice": 2376000,
+            "totalPowerKW": 12.2
+          },
+          "scores": {
+            "performance": 74.8,
+            "value": 76.4,
+            "power": 65.7,
+            "service": 100,
+            "total": 77.7,
+            "valueIndex": 2.12
+          },
+          "fitRatios": {
+            "cpu": 2.03,
+            "mem": 2,
+            "gpu": 1.33,
+            "storage": 1,
+            "nic": 5
+          },
+          "reasons": [
+            "CPU覆盖需求 203%、内存覆盖 200%、存储覆盖 100%，2 节点即可满足并发规模测算需求。",
+            "16 × NVIDIA H800 80GB PCIe（FP16合计 12096 TFLOPS），GPU密集负载下算力余量充足。",
+            "综合适配度 77.7 分（性能74.8/性价比76.4/功耗65.7/维保100），性能匹配表现突出；总价 ¥2,376,000 处于预算区间中位。"
+          ]
+        },
+        "filterNotes": [
+          "按GPU需求筛选NVIDIA数据中心卡类机型后剩 5 款。",
+          "按CPU/内存/GPU/存储性能约束完成集群规模换算，5 款机型可满足容量需求。",
+          "其中 4 款总价落在预算区间内且满足交付周期（≤不限），纳入评分排序。"
+        ],
+        "budgetRelaxed": "none",
+        "valueRanking": [
+          {
+            "rank": 1,
+            "name": "联想 ThinkSystem SR675 V3",
+            "valueIndex": 2.74,
+            "totalScore": 83.2,
+            "totalPrice": 2596000
+          },
+          {
+            "rank": 2,
+            "name": "超聚变 FusionServer G5500 V7",
+            "valueIndex": 2.32,
+            "totalScore": 80,
+            "totalPrice": 2116000
+          },
+          {
+            "rank": 3,
+            "name": "宁畅 X640 G50",
+            "valueIndex": 2.12,
+            "totalScore": 77.7,
+            "totalPrice": 2376000
+          },
+          {
+            "rank": 4,
+            "name": "浪潮 NF5468A5",
+            "valueIndex": 1.56,
+            "totalScore": 78.5,
+            "totalPrice": 1996000
+          }
+        ],
+        "stats": {
+          "machineTotal": 22,
+          "feasible": 4
+        },
+        "rulesVersion": "1.0",
+        "computedAt": "2026-11-02T05:10:11.065Z"
+      },
+      "stages": [
+        {
+          "name": "参数校验与回显",
+          "pct": 15
+        },
+        {
+          "name": "负载画像映射",
+          "pct": 35
+        },
+        {
+          "name": "容量换算（CPU/内存/GPU/存储/带宽）",
+          "pct": 55
+        },
+        {
+          "name": "机型参数库匹配筛选",
+          "pct": 75
+        },
+        {
+          "name": "四维加权评分排序",
+          "pct": 90
+        },
+        {
+          "name": "报告生成",
+          "pct": 100
+        }
+      ],
+      "creatorUserId": null,
+      "createdAt": "2026-11-02T05:10:11.066Z"
+    },
+    {
+      "id": "TMVYT25FEA7565D",
+      "form": {
+        "scenario": "gpu-train",
+        "concurrentUsers": 3000,
+        "workloadDesc": "GUI冒烟测试：大模型分布式训练负载",
+        "cpuCoresMin": null,
+        "cpuCoresMax": null,
+        "cpuFreqMin": null,
+        "gpuRequirement": "nvidia-dc",
+        "gpuCount": 8,
+        "memoryGB": 1024,
+        "storageValue": 20,
+        "storageUnit": "TB",
+        "budgetMin": 800000,
+        "budgetMax": 3000000,
+        "nicMbps": 10000,
+        "deliveryCycle": "week",
+        "remark": ""
+      },
+      "result": {
+        "sizing": {
+          "profile": "gpu",
+          "scenarioConf": {
+            "profile": "gpu",
+            "coresPer1kUsers": 16,
+            "memGBPerCore": 8,
+            "gpuPer1kUsers": 4,
+            "storageGBPer1kUsers": 500,
+            "storageMultiplier": 1.5,
+            "nicMbpsPer1kUsers": 50
+          },
+          "recCores": 63,
+          "recMemGB": 1024,
+          "recGpuCount": 12,
+          "gpuClassRequired": "nvidia-dc",
+          "recStorageGB": 32420,
+          "recNicMbps": 10000,
+          "scaleLevel": "中型（1千~1万并发）",
+          "derivations": [
+            {
+              "item": "推荐CPU总核数",
+              "value": "63 核",
+              "basis": "每千并发×16核 ×(1+30%余量)"
+            },
+            {
+              "item": "推荐内存容量",
+              "value": "1024 GB",
+              "basis": "63核 × 8 GB/核，并取用户内存要求与换算值的较大者"
+            },
+            {
+              "item": "推荐GPU卡数",
+              "value": "12 张",
+              "basis": "每千并发×4张，并满足用户GPU数量要求"
+            },
+            {
+              "item": "推荐存储容量",
+              "value": "32420 GB（约 31.7 TB）",
+              "basis": "用户存储 × 1.5（GPU训练画像系数）+ 系统盘 200 GB + 每千并发×500 GB"
+            },
+            {
+              "item": "推荐网络带宽",
+              "value": "≥ 10000 Mbps",
+              "basis": "每千并发×50 Mbps，与用户带宽要求取较大者"
+            }
+          ]
+        },
+        "profileLabel": "GPU密集型",
+        "candidates": [
+          {
+            "machine": {
+              "id": "lenovo-sr675v3",
+              "brand": "联想",
+              "model": "ThinkSystem SR675 V3",
+              "category": "GPU服务器",
+              "cpuArch": "x86-AMD",
+              "cpu": {
+                "model": "AMD EPYC 9354",
+                "count": 2,
+                "coresPerCPU": 84,
+                "freqGHz": 3.25
+              },
+              "gpu": {
+                "model": "NVIDIA H800 80GB PCIe",
+                "count": 8,
+                "vramGB": 80,
+                "fp16Tflops": 756,
+                "class": "nvidia-dc"
+              },
+              "memory": {
+                "stdGB": 1024,
+                "maxGB": 6144,
+                "slots": 24,
+                "type": "DDR5-4800 ECC"
+              },
+              "storage": {
+                "stdTB": 15.36,
+                "maxTB": 61.44,
+                "type": "NVMe SSD"
+              },
+              "network": {
+                "model": "4×200G InfiniBand",
+                "nicGbps": 25
+              },
+              "powerW": 6200,
+              "price": 1298000,
+              "warrantyYears": 3,
+              "deliveryWeeks": 8,
+              "tags": [
+                "gpu-train",
+                "render"
+              ],
+              "status": "active",
+              "note": "AMD双路+8卡H800，高核心数训练平台"
+            },
+            "cluster": {
+              "nodes": 2,
+              "totalCores": 336,
+              "totalMemGB": 2048,
+              "totalGpu": 16,
+              "totalGpuFlops": 12096,
+              "perNodeStorageTB": 15.9,
+              "totalStorageTB": 31.8,
+              "totalNicMbps": 50000,
+              "totalPrice": 2596000,
+              "totalPowerKW": 12.4
+            },
+            "scores": {
+              "performance": 74.8,
+              "value": 100,
+              "power": 60,
+              "service": 70,
+              "total": 79.4,
+              "valueIndex": 2.74
+            },
+            "fitRatios": {
+              "cpu": 5.33,
+              "mem": 2,
+              "gpu": 1.33,
+              "storage": 1,
+              "nic": 5
+            },
+            "reasons": [
+              "CPU覆盖需求 533%、内存覆盖 200%、存储覆盖 100%，2 节点即可满足并发规模测算需求。",
+              "16 × NVIDIA H800 80GB PCIe（FP16合计 12096 TFLOPS），GPU密集负载下算力余量充足。",
+              "综合适配度 79.4 分（性能74.8/性价比100/功耗60/维保70），性价比表现突出；总价 ￥2,596,000 处于预算区间高位。"
+            ]
+          },
+          {
+            "machine": {
+              "id": "xfusion-g5500v7",
+              "brand": "超聚变",
+              "model": "FusionServer G5500 V7",
+              "category": "GPU服务器",
+              "cpuArch": "x86-AMD",
+              "cpu": {
+                "model": "AMD EPYC 7543",
+                "count": 2,
+                "coresPerCPU": 64,
+                "freqGHz": 2.8
+              },
+              "gpu": {
+                "model": "NVIDIA A800 80GB PCIe",
+                "count": 8,
+                "vramGB": 80,
+                "fp16Tflops": 312,
+                "class": "nvidia-dc"
+              },
+              "memory": {
+                "stdGB": 1024,
+                "maxGB": 4096,
+                "slots": 24,
+                "type": "DDR4-3200 ECC"
+              },
+              "storage": {
+                "stdTB": 15.36,
+                "maxTB": 61.44,
+                "type": "NVMe SSD"
+              },
+              "network": {
+                "model": "4×200G InfiniBand",
+                "nicGbps": 25
+              },
+              "powerW": 6000,
+              "price": 1058000,
+              "warrantyYears": 3,
+              "deliveryWeeks": 7,
+              "tags": [
+                "gpu-train",
+                "render"
+              ],
+              "status": "active",
+              "note": "AMD高核心数+8卡A800，训练渲染兼顾"
+            },
+            "cluster": {
+              "nodes": 2,
+              "totalCores": 256,
+              "totalMemGB": 2048,
+              "totalGpu": 16,
+              "totalGpuFlops": 4992,
+              "perNodeStorageTB": 15.9,
+              "totalStorageTB": 31.8,
+              "totalNicMbps": 50000,
+              "totalPrice": 2116000,
+              "totalPowerKW": 12
+            },
+            "scores": {
+              "performance": 74.8,
+              "value": 83.8,
+              "power": 71.4,
+              "service": 70,
+              "total": 76.3,
+              "valueIndex": 2.32
+            },
+            "fitRatios": {
+              "cpu": 4.06,
+              "mem": 2,
+              "gpu": 1.33,
+              "storage": 1,
+              "nic": 5
+            },
+            "reasons": [
+              "CPU覆盖需求 406%、内存覆盖 200%、存储覆盖 100%，2 节点即可满足并发规模测算需求。",
+              "16 × NVIDIA A800 80GB PCIe（FP16合计 4992 TFLOPS），GPU密集负载下算力余量充足。",
+              "综合适配度 76.3 分（性能74.8/性价比83.8/功耗71.4/维保70），性能匹配表现突出；总价 ￥2,116,000 处于预算区间中位。"
+            ]
+          },
+          {
+            "machine": {
+              "id": "inspur-nf5468a5",
+              "brand": "浪潮",
+              "model": "NF5468A5",
+              "category": "GPU服务器",
+              "cpuArch": "x86",
+              "cpu": {
+                "model": "Intel Xeon Platinum 8352Y",
+                "count": 2,
+                "coresPerCPU": 32,
+                "freqGHz": 2.2
+              },
+              "gpu": {
+                "model": "NVIDIA A800 80GB PCIe",
+                "count": 8,
+                "vramGB": 80,
+                "fp16Tflops": 312,
+                "class": "nvidia-dc"
+              },
+              "memory": {
+                "stdGB": 512,
+                "maxGB": 4096,
+                "slots": 32,
+                "type": "DDR4-3200 ECC"
+              },
+              "storage": {
+                "stdTB": 7.68,
+                "maxTB": 61.44,
+                "type": "NVMe SSD"
+              },
+              "network": {
+                "model": "2×25GbE + 2×200G InfiniBand",
+                "nicGbps": 25
+              },
+              "powerW": 5500,
+              "price": 998000,
+              "warrantyYears": 3,
+              "deliveryWeeks": 6,
+              "tags": [
+                "gpu-train",
+                "render"
+              ],
+              "status": "active",
+              "note": "8卡A800训练服务器，支持大规模分布式训练"
+            },
+            "cluster": {
+              "nodes": 2,
+              "totalCores": 128,
+              "totalMemGB": 1024,
+              "totalGpu": 16,
+              "totalGpuFlops": 4992,
+              "perNodeStorageTB": 15.9,
+              "totalStorageTB": 31.8,
+              "totalNicMbps": 50000,
+              "totalPrice": 1996000,
+              "totalPowerKW": 11
+            },
+            "scores": {
+              "performance": 81.8,
+              "value": 55,
+              "power": 100,
+              "service": 70,
+              "total": 74.7,
+              "valueIndex": 1.56
+            },
+            "fitRatios": {
+              "cpu": 2.03,
+              "mem": 1,
+              "gpu": 1.33,
+              "storage": 1,
+              "nic": 5
+            },
+            "reasons": [
+              "CPU覆盖需求 203%、内存覆盖 100%、存储覆盖 100%，2 节点即可满足并发规模测算需求。",
+              "16 × NVIDIA A800 80GB PCIe（FP16合计 4992 TFLOPS），GPU密集负载下算力余量充足。",
+              "综合适配度 74.7 分（性能81.8/性价比55/功耗100/维保70），性能匹配表现突出；总价 ￥1,996,000 处于预算区间中位。"
+            ]
+          },
+          {
+            "machine": {
+              "id": "nettrix-x640g50",
+              "brand": "宁畅",
+              "model": "X640 G50",
+              "category": "GPU服务器",
+              "cpuArch": "x86",
+              "cpu": {
+                "model": "Intel Xeon Platinum 8462Y+",
+                "count": 2,
+                "coresPerCPU": 32,
+                "freqGHz": 2.7
+              },
+              "gpu": {
+                "model": "NVIDIA H800 80GB PCIe",
+                "count": 8,
+                "vramGB": 80,
+                "fp16Tflops": 756,
+                "class": "nvidia-dc"
+              },
+              "memory": {
+                "stdGB": 1024,
+                "maxGB": 6144,
+                "slots": 32,
+                "type": "DDR5-4800 ECC"
+              },
+              "storage": {
+                "stdTB": 15.36,
+                "maxTB": 61.44,
+                "type": "NVMe SSD"
+              },
+              "network": {
+                "model": "4×200G InfiniBand",
+                "nicGbps": 25
+              },
+              "powerW": 6100,
+              "price": 1188000,
+              "warrantyYears": 4,
+              "deliveryWeeks": 8,
+              "tags": [
+                "gpu-train",
+                "render"
+              ],
+              "status": "active",
+              "note": "8卡H800，训练推理均衡"
+            },
+            "cluster": {
+              "nodes": 2,
+              "totalCores": 128,
+              "totalMemGB": 2048,
+              "totalGpu": 16,
+              "totalGpuFlops": 12096,
+              "perNodeStorageTB": 15.9,
+              "totalStorageTB": 31.8,
+              "totalNicMbps": 50000,
+              "totalPrice": 2376000,
+              "totalPowerKW": 12.2
+            },
+            "scores": {
+              "performance": 74.8,
+              "value": 76.4,
+              "power": 65.7,
+              "service": 80,
+              "total": 74.7,
+              "valueIndex": 2.12
+            },
+            "fitRatios": {
+              "cpu": 2.03,
+              "mem": 2,
+              "gpu": 1.33,
+              "storage": 1,
+              "nic": 5
+            },
+            "reasons": [
+              "CPU覆盖需求 203%、内存覆盖 200%、存储覆盖 100%，2 节点即可满足并发规模测算需求。",
+              "16 × NVIDIA H800 80GB PCIe（FP16合计 12096 TFLOPS），GPU密集负载下算力余量充足。",
+              "综合适配度 74.7 分（性能74.8/性价比76.4/功耗65.7/维保80），性能匹配表现突出；总价 ￥2,376,000 处于预算区间中位。"
+            ]
+          }
+        ],
+        "top3": [
+          {
+            "machine": {
+              "id": "lenovo-sr675v3",
+              "brand": "联想",
+              "model": "ThinkSystem SR675 V3",
+              "category": "GPU服务器",
+              "cpuArch": "x86-AMD",
+              "cpu": {
+                "model": "AMD EPYC 9354",
+                "count": 2,
+                "coresPerCPU": 84,
+                "freqGHz": 3.25
+              },
+              "gpu": {
+                "model": "NVIDIA H800 80GB PCIe",
+                "count": 8,
+                "vramGB": 80,
+                "fp16Tflops": 756,
+                "class": "nvidia-dc"
+              },
+              "memory": {
+                "stdGB": 1024,
+                "maxGB": 6144,
+                "slots": 24,
+                "type": "DDR5-4800 ECC"
+              },
+              "storage": {
+                "stdTB": 15.36,
+                "maxTB": 61.44,
+                "type": "NVMe SSD"
+              },
+              "network": {
+                "model": "4×200G InfiniBand",
+                "nicGbps": 25
+              },
+              "powerW": 6200,
+              "price": 1298000,
+              "warrantyYears": 3,
+              "deliveryWeeks": 8,
+              "tags": [
+                "gpu-train",
+                "render"
+              ],
+              "status": "active",
+              "note": "AMD双路+8卡H800，高核心数训练平台"
+            },
+            "cluster": {
+              "nodes": 2,
+              "totalCores": 336,
+              "totalMemGB": 2048,
+              "totalGpu": 16,
+              "totalGpuFlops": 12096,
+              "perNodeStorageTB": 15.9,
+              "totalStorageTB": 31.8,
+              "totalNicMbps": 50000,
+              "totalPrice": 2596000,
+              "totalPowerKW": 12.4
+            },
+            "scores": {
+              "performance": 74.8,
+              "value": 100,
+              "power": 60,
+              "service": 70,
+              "total": 79.4,
+              "valueIndex": 2.74
+            },
+            "fitRatios": {
+              "cpu": 5.33,
+              "mem": 2,
+              "gpu": 1.33,
+              "storage": 1,
+              "nic": 5
+            },
+            "reasons": [
+              "CPU覆盖需求 533%、内存覆盖 200%、存储覆盖 100%，2 节点即可满足并发规模测算需求。",
+              "16 × NVIDIA H800 80GB PCIe（FP16合计 12096 TFLOPS），GPU密集负载下算力余量充足。",
+              "综合适配度 79.4 分（性能74.8/性价比100/功耗60/维保70），性价比表现突出；总价 ￥2,596,000 处于预算区间高位。"
+            ]
+          },
+          {
+            "machine": {
+              "id": "xfusion-g5500v7",
+              "brand": "超聚变",
+              "model": "FusionServer G5500 V7",
+              "category": "GPU服务器",
+              "cpuArch": "x86-AMD",
+              "cpu": {
+                "model": "AMD EPYC 7543",
+                "count": 2,
+                "coresPerCPU": 64,
+                "freqGHz": 2.8
+              },
+              "gpu": {
+                "model": "NVIDIA A800 80GB PCIe",
+                "count": 8,
+                "vramGB": 80,
+                "fp16Tflops": 312,
+                "class": "nvidia-dc"
+              },
+              "memory": {
+                "stdGB": 1024,
+                "maxGB": 4096,
+                "slots": 24,
+                "type": "DDR4-3200 ECC"
+              },
+              "storage": {
+                "stdTB": 15.36,
+                "maxTB": 61.44,
+                "type": "NVMe SSD"
+              },
+              "network": {
+                "model": "4×200G InfiniBand",
+                "nicGbps": 25
+              },
+              "powerW": 6000,
+              "price": 1058000,
+              "warrantyYears": 3,
+              "deliveryWeeks": 7,
+              "tags": [
+                "gpu-train",
+                "render"
+              ],
+              "status": "active",
+              "note": "AMD高核心数+8卡A800，训练渲染兼顾"
+            },
+            "cluster": {
+              "nodes": 2,
+              "totalCores": 256,
+              "totalMemGB": 2048,
+              "totalGpu": 16,
+              "totalGpuFlops": 4992,
+              "perNodeStorageTB": 15.9,
+              "totalStorageTB": 31.8,
+              "totalNicMbps": 50000,
+              "totalPrice": 2116000,
+              "totalPowerKW": 12
+            },
+            "scores": {
+              "performance": 74.8,
+              "value": 83.8,
+              "power": 71.4,
+              "service": 70,
+              "total": 76.3,
+              "valueIndex": 2.32
+            },
+            "fitRatios": {
+              "cpu": 4.06,
+              "mem": 2,
+              "gpu": 1.33,
+              "storage": 1,
+              "nic": 5
+            },
+            "reasons": [
+              "CPU覆盖需求 406%、内存覆盖 200%、存储覆盖 100%，2 节点即可满足并发规模测算需求。",
+              "16 × NVIDIA A800 80GB PCIe（FP16合计 4992 TFLOPS），GPU密集负载下算力余量充足。",
+              "综合适配度 76.3 分（性能74.8/性价比83.8/功耗71.4/维保70），性能匹配表现突出；总价 ￥2,116,000 处于预算区间中位。"
+            ]
+          },
+          {
+            "machine": {
+              "id": "inspur-nf5468a5",
+              "brand": "浪潮",
+              "model": "NF5468A5",
+              "category": "GPU服务器",
+              "cpuArch": "x86",
+              "cpu": {
+                "model": "Intel Xeon Platinum 8352Y",
+                "count": 2,
+                "coresPerCPU": 32,
+                "freqGHz": 2.2
+              },
+              "gpu": {
+                "model": "NVIDIA A800 80GB PCIe",
+                "count": 8,
+                "vramGB": 80,
+                "fp16Tflops": 312,
+                "class": "nvidia-dc"
+              },
+              "memory": {
+                "stdGB": 512,
+                "maxGB": 4096,
+                "slots": 32,
+                "type": "DDR4-3200 ECC"
+              },
+              "storage": {
+                "stdTB": 7.68,
+                "maxTB": 61.44,
+                "type": "NVMe SSD"
+              },
+              "network": {
+                "model": "2×25GbE + 2×200G InfiniBand",
+                "nicGbps": 25
+              },
+              "powerW": 5500,
+              "price": 998000,
+              "warrantyYears": 3,
+              "deliveryWeeks": 6,
+              "tags": [
+                "gpu-train",
+                "render"
+              ],
+              "status": "active",
+              "note": "8卡A800训练服务器，支持大规模分布式训练"
+            },
+            "cluster": {
+              "nodes": 2,
+              "totalCores": 128,
+              "totalMemGB": 1024,
+              "totalGpu": 16,
+              "totalGpuFlops": 4992,
+              "perNodeStorageTB": 15.9,
+              "totalStorageTB": 31.8,
+              "totalNicMbps": 50000,
+              "totalPrice": 1996000,
+              "totalPowerKW": 11
+            },
+            "scores": {
+              "performance": 81.8,
+              "value": 55,
+              "power": 100,
+              "service": 70,
+              "total": 74.7,
+              "valueIndex": 1.56
+            },
+            "fitRatios": {
+              "cpu": 2.03,
+              "mem": 1,
+              "gpu": 1.33,
+              "storage": 1,
+              "nic": 5
+            },
+            "reasons": [
+              "CPU覆盖需求 203%、内存覆盖 100%、存储覆盖 100%，2 节点即可满足并发规模测算需求。",
+              "16 × NVIDIA A800 80GB PCIe（FP16合计 4992 TFLOPS），GPU密集负载下算力余量充足。",
+              "综合适配度 74.7 分（性能81.8/性价比55/功耗100/维保70），性能匹配表现突出；总价 ￥1,996,000 处于预算区间中位。"
+            ]
+          }
+        ],
+        "alternative": {
+          "machine": {
+            "id": "nettrix-x640g50",
+            "brand": "宁畅",
+            "model": "X640 G50",
+            "category": "GPU服务器",
+            "cpuArch": "x86",
+            "cpu": {
+              "model": "Intel Xeon Platinum 8462Y+",
+              "count": 2,
+              "coresPerCPU": 32,
+              "freqGHz": 2.7
+            },
+            "gpu": {
+              "model": "NVIDIA H800 80GB PCIe",
+              "count": 8,
+              "vramGB": 80,
+              "fp16Tflops": 756,
+              "class": "nvidia-dc"
+            },
+            "memory": {
+              "stdGB": 1024,
+              "maxGB": 6144,
+              "slots": 32,
+              "type": "DDR5-4800 ECC"
+            },
+            "storage": {
+              "stdTB": 15.36,
+              "maxTB": 61.44,
+              "type": "NVMe SSD"
+            },
+            "network": {
+              "model": "4×200G InfiniBand",
+              "nicGbps": 25
+            },
+            "powerW": 6100,
+            "price": 1188000,
+            "warrantyYears": 4,
+            "deliveryWeeks": 8,
+            "tags": [
+              "gpu-train",
+              "render"
+            ],
+            "status": "active",
+            "note": "8卡H800，训练推理均衡"
+          },
+          "cluster": {
+            "nodes": 2,
+            "totalCores": 128,
+            "totalMemGB": 2048,
+            "totalGpu": 16,
+            "totalGpuFlops": 12096,
+            "perNodeStorageTB": 15.9,
+            "totalStorageTB": 31.8,
+            "totalNicMbps": 50000,
+            "totalPrice": 2376000,
+            "totalPowerKW": 12.2
+          },
+          "scores": {
+            "performance": 74.8,
+            "value": 76.4,
+            "power": 65.7,
+            "service": 80,
+            "total": 74.7,
+            "valueIndex": 2.12
+          },
+          "fitRatios": {
+            "cpu": 2.03,
+            "mem": 2,
+            "gpu": 1.33,
+            "storage": 1,
+            "nic": 5
+          },
+          "reasons": [
+            "CPU覆盖需求 203%、内存覆盖 200%、存储覆盖 100%，2 节点即可满足并发规模测算需求。",
+            "16 × NVIDIA H800 80GB PCIe（FP16合计 12096 TFLOPS），GPU密集负载下算力余量充足。",
+            "综合适配度 74.7 分（性能74.8/性价比76.4/功耗65.7/维保80），性能匹配表现突出；总价 ￥2,376,000 处于预算区间中位。"
+          ]
+        },
+        "filterNotes": [
+          "按GPU需求筛选NVIDIA数据中心卡类机型后剩 5 款。",
+          "按CPU/内存/GPU/存储性能约束完成集群规模换算，5 款机型可满足容量需求。",
+          "警告：预算区间内无机型满足交付周期要求，已放宽交付约束（建议与供应商确认现货）。"
+        ],
+        "budgetRelaxed": "delivery",
+        "valueRanking": [
+          {
+            "rank": 1,
+            "name": "联想 ThinkSystem SR675 V3",
+            "valueIndex": 2.74,
+            "totalScore": 79.4,
+            "totalPrice": 2596000
+          },
+          {
+            "rank": 2,
+            "name": "超聚变 FusionServer G5500 V7",
+            "valueIndex": 2.32,
+            "totalScore": 76.3,
+            "totalPrice": 2116000
+          },
+          {
+            "rank": 3,
+            "name": "宁畅 X640 G50",
+            "valueIndex": 2.12,
+            "totalScore": 74.7,
+            "totalPrice": 2376000
+          },
+          {
+            "rank": 4,
+            "name": "浪潮 NF5468A5",
+            "valueIndex": 1.56,
+            "totalScore": 74.7,
+            "totalPrice": 1996000
+          }
+        ],
+        "stats": {
+          "machineTotal": 22,
+          "feasible": 4
+        },
+        "rulesVersion": "1.0",
+        "computedAt": "2026-11-02T05:15:21.721Z"
+      },
+      "stages": [
+        {
+          "name": "参数校验与回显",
+          "pct": 15
+        },
+        {
+          "name": "负载画像映射",
+          "pct": 35
+        },
+        {
+          "name": "容量换算（CPU/内存/GPU/存储/带宽）",
+          "pct": 55
+        },
+        {
+          "name": "机型参数库匹配筛选",
+          "pct": 75
+        },
+        {
+          "name": "四维加权评分排序",
+          "pct": 90
+        },
+        {
+          "name": "报告生成",
+          "pct": 100
+        }
+      ],
+      "creatorUserId": null,
+      "createdAt": "2026-11-02T05:15:21.723Z"
+    }
+  ]
+}

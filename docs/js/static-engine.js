@@ -156,6 +156,33 @@
     return map[cls] || cls;
   }
 
+  // 兜底候选：容量无法满足时不淘汰任何机型，按最大可部署规模给出最接近方案
+  function buildCandidateLenient(m, sizing, form, rules) {
+    const totalCores = machineTotalCores(m);
+    const machineStorageMaxGB = m.storage.maxTB * GB_PER_TB;
+    const nodesByCpu = Math.max(1, Math.ceil(Math.max(sizing.recCores, 0) / totalCores));
+    const nodesByMem = Math.max(1, Math.ceil(sizing.recMemGB / m.memory.stdGB));
+    let nodesByGpu = 1;
+    if (sizing.recGpuCount > 0 && m.gpu) nodesByGpu = Math.ceil(sizing.recGpuCount / m.gpu.count);
+    const nodesByStorage = Math.max(1, Math.ceil(sizing.recStorageGB / machineStorageMaxGB));
+    const nodes = Math.min(Math.max(nodesByCpu, nodesByMem, nodesByGpu, nodesByStorage, 1), rules.sizing.maxNodes);
+    const perNodeStorageTB = Math.min(m.storage.maxTB, Math.max(m.storage.stdTB, Math.ceil(sizing.recStorageGB / GB_PER_TB / nodes * 10) / 10));
+
+    const cluster = {
+      nodes,
+      totalCores: nodes * totalCores,
+      totalMemGB: nodes * m.memory.stdGB,
+      totalGpu: m.gpu ? nodes * m.gpu.count : 0,
+      totalGpuFlops: m.gpu ? nodes * m.gpu.count * m.gpu.fp16Tflops : 0,
+      perNodeStorageTB,
+      totalStorageTB: +(nodes * perNodeStorageTB).toFixed(2),
+      totalNicMbps: nodes * m.network.nicGbps * 1000,
+      totalPrice: nodes * m.price,
+      totalPowerKW: +(nodes * m.powerW / 1000).toFixed(2)
+    };
+    return { machine: m, cluster, capacityShort: true };
+  }
+
   function filterCandidates(machines, sizing, form, rules) {
     const notes = [];
     const gpuClassRequired = sizing.gpuClassRequired;
@@ -195,11 +222,28 @@
       notes.push('警告：预算区间下限内无满足需求的方案，已放宽为“总价不超过预算上限”，最优方案价格可能低于预算下限属正常（预算下限仅作参考）。');
       return { candidates: pass, notes, budgetRelaxed: 'budgetMin' };
     }
-    notes.push('警告：预算上限内无满足需求的方案，以下按最小超预算幅度排序供参考，建议上调预算或降低规模。');
-    feasible.sort((a, b) => a.cluster.totalPrice - b.cluster.totalPrice);
-    const capped = feasible.slice(0, 6);
-    for (const c of capped) c.overBudget = true;
-    return { candidates: capped, notes, budgetRelaxed: 'budgetMax' };
+    // 四级放宽：全部可行方案（标记超预算）
+    if (feasible.length > 0) {
+      notes.push('警告：预算上限内无满足需求的方案，以下按最小超预算幅度排序供参考，建议上调预算或降低规模。');
+      feasible.sort((a, b) => a.cluster.totalPrice - b.cluster.totalPrice);
+      const capped = feasible.slice(0, 6);
+      for (const c of capped) c.overBudget = !!(c.cluster.totalPrice > bMax);
+      return { candidates: capped, notes, budgetRelaxed: 'budgetMax' };
+    }
+    // 五级兜底：容量也无法满足时，不淘汰任何机型，按最大可部署规模给出最接近的参考方案
+    notes.push('警告：机型库无可满足该规模的方案，以下为按「最大可部署规模」测算的最接近参考方案，建议分期建设、下调规模或联系厂商定制。');
+    let basePool = pool;
+    if (sizing.recGpuCount > 0) {
+      const gpuInPool = pool.filter(m => m.gpu);
+      if (gpuInPool.length) basePool = gpuInPool;
+      else {
+        const anyGpu = machines.filter(m => m.status !== 'disabled' && m.gpu);
+        basePool = anyGpu.length ? anyGpu : machines.filter(m => m.status !== 'disabled');
+      }
+    }
+    const lenient = basePool.map(m => buildCandidateLenient(m, sizing, form, rules));
+    for (const c of lenient) c.overBudget = !!(c.cluster.totalPrice > bMax);
+    return { candidates: lenient, notes, budgetRelaxed: 'capacity' };
   }
 
   function fitScore(ratio) {
@@ -290,6 +334,7 @@
     ].sort((a, b) => b[1] * b[2] - a[1] * a[2])[0];
     reasons.push(`综合适配度 ${s.total} 分（性能${s.performance}/性价比${s.value}/功耗${s.power}/维保${s.service}），${best[0]}表现突出；总价 ￥${cl.totalPrice.toLocaleString('zh-CN')} 处于${pricePos}。`);
     if (c.overBudget) reasons.push('注意：该方案总价超出预算上限，仅作对比参考。');
+    if (c.capacityShort) reasons.push('注意：当前需求规模超出机型库容量上限，该方案为按最大可部署规模给出的最接近参考（覆盖率见上），建议分期建设或下调规模。');
     return reasons;
   }
 
@@ -421,6 +466,7 @@
     }
     if (result.budgetRelaxed === 'delivery') risks.push({ type: '供货风险', text: '预算区间内机型的标准供货周期不满足交付要求，已放宽交付约束。建议下单前与供应商书面确认现货或加急排产，并在合同中约定逾期条款。' });
     if (result.budgetRelaxed === 'budgetMax') risks.push({ type: '预算风险', text: '当前预算上限内无完全满足需求的方案，报告列出的方案总价超出预算，建议上调预算、降低并发规模预期或分期建设。' });
+    if (result.budgetRelaxed === 'capacity') risks.push({ type: '容量风险', text: '当前需求规模超出机型库单方案可交付的容量上限（含最大集群节点数约束），本报告方案为按最大可部署规模给出的最接近参考，存在算力/容量缺口，建议分期建设、下调并发规模预期或联系厂商定制配置。' });
     if (form.gpuRequirement === 'none' && ['gpu-train', 'render'].includes(form.scenario)) {
       risks.push({ type: '需求冲突', text: '所选业务场景属于GPU密集型负载，但GPU需求选择“无”，已按无GPU方案测算。此类负载若无GPU支撑，渲染/训练时延将显著上升，请复核需求。' });
     }

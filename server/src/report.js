@@ -74,6 +74,7 @@ function buildReport(task, rules) {
   }
   if (result.budgetRelaxed === 'delivery') risks.push({ type: '供货风险', text: '预算区间内机型的标准供货周期不满足交付要求，已放宽交付约束。建议下单前与供应商书面确认现货或加急排产，并在合同中约定逾期条款。' });
   if (result.budgetRelaxed === 'budgetMax') risks.push({ type: '预算风险', text: '当前预算上限内无完全满足需求的方案，报告列出的方案总价超出预算，建议上调预算、降低并发规模预期或分期建设。' });
+  if (result.budgetRelaxed === 'capacity') risks.push({ type: '容量风险', text: '当前需求规模超出机型库单方案可交付的容量上限（含最大集群节点数约束），本报告方案为按最大可部署规模给出的最接近参考，存在算力/容量缺口，建议分期建设、下调并发规模预期或联系厂商定制配置。' });
   if (form.gpuRequirement === 'none' && ['gpu-train', 'render'].includes(form.scenario)) {
     risks.push({ type: '需求冲突', text: '所选业务场景属于GPU密集型负载，但GPU需求选择“无”，已按无GPU方案测算。此类负载若无GPU支撑，渲染/训练时延将显著上升，请复核需求。' });
   }

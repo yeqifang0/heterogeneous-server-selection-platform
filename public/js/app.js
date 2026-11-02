@@ -483,7 +483,7 @@
       ]);
     } catch (e) { errorPage(v, e); return; }
 
-    const relaxMap = { delivery: ['badge-orange', '预算内机型供货周期偏长，已放宽交付约束'], budgetMin: ['badge-orange', '预算下限内无完全匹配方案，已按预算上限筛选'], budgetMax: ['badge-red', '预算上限内无满足方案，以下为超预算参考方案'], none: null };
+    const relaxMap = { delivery: ['badge-orange', '预算内机型供货周期偏长，已放宽交付约束'], budgetMin: ['badge-orange', '预算下限内无完全匹配方案，已按预算上限筛选'], budgetMax: ['badge-red', '预算上限内无满足方案，以下为超预算参考方案'], capacity: ['badge-red', '需求规模超出机型库容量上限，以下为最接近的参考方案'], none: null };
     const relax = relaxMap[sum.budgetRelaxed];
 
     v.innerHTML = `

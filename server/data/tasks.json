@@ -1549,6 +1549,274 @@
       ],
       "creatorUserId": null,
       "createdAt": "2026-11-02T05:15:21.723Z"
+    },
+    {
+      "id": "TMVYZ1NZLC45CC3",
+      "form": {
+        "scenario": "web",
+        "concurrentUsers": 5000,
+        "workloadDesc": "",
+        "cpuCoresMin": null,
+        "cpuCoresMax": null,
+        "cpuFreqMin": null,
+        "gpuRequirement": "none",
+        "gpuCount": null,
+        "memoryGB": 256,
+        "storageValue": 20,
+        "storageUnit": "TB",
+        "nicMbps": null,
+        "budgetMin": 200000,
+        "budgetMax": 1000000,
+        "deliveryCycle": "any",
+        "remark": ""
+      },
+      "result": {
+        "sizing": {
+          "profile": "mixed",
+          "scenarioConf": {
+            "profile": "mixed",
+            "coresPer1kUsers": 8,
+            "memGBPerCore": 4,
+            "gpuPer1kUsers": 0,
+            "storageGBPer1kUsers": 50,
+            "storageMultiplier": 1.2,
+            "nicMbpsPer1kUsers": 10
+          },
+          "recCores": 52,
+          "recMemGB": 256,
+          "recGpuCount": 0,
+          "gpuClassRequired": "none",
+          "recStorageGB": 25026,
+          "recNicMbps": 100,
+          "scaleLevel": "中型（1千~1万并发）",
+          "derivations": [
+            {
+              "item": "推荐CPU总核数",
+              "value": "52 核",
+              "basis": "每千并发×8核 ×(1+30%余量)"
+            },
+            {
+              "item": "推荐内存容量",
+              "value": "256 GB",
+              "basis": "52核 × 4 GB/核，并取用户内存要求与换算值的较大者"
+            },
+            {
+              "item": "推荐GPU卡数",
+              "value": "无（本负载画像不需要GPU）",
+              "basis": "负载画像非GPU密集"
+            },
+            {
+              "item": "推荐存储容量",
+              "value": "25026 GB（约 24.4 TB）",
+              "basis": "用户存储 × 1.2（通用Web画像系数）+ 系统盘 200 GB + 每千并发×50 GB"
+            },
+            {
+              "item": "推荐网络带宽",
+              "value": "≥ 100 Mbps",
+              "basis": "每千并发×10 Mbps，与用户带宽要求取较大者"
+            }
+          ]
+        },
+        "profileLabel": "混合负载型",
+        "candidates": [
+          {
+            "machine": {
+              "id": "dell-r760xd2",
+              "brand": "戴尔",
+              "model": "PowerEdge R760xd2",
+              "category": "存储型服务器",
+              "cpuArch": "x86",
+              "cpu": {
+                "model": "Intel Xeon Silver 4314",
+                "count": 2,
+                "coresPerCPU": 16,
+                "freqGHz": 2.4
+              },
+              "gpu": null,
+              "memory": {
+                "stdGB": 128,
+                "maxGB": 2048,
+                "slots": 16,
+                "type": "DDR4-3200 ECC"
+              },
+              "storage": {
+                "stdTB": 48,
+                "maxTB": 240,
+                "type": "24×3.5英寸大容量盘位"
+              },
+              "network": {
+                "model": "4×25GbE",
+                "nicGbps": 25
+              },
+              "powerW": 1200,
+              "price": 118000,
+              "warrantyYears": 3,
+              "deliveryWeeks": 5,
+              "tags": [
+                "storage",
+                "database"
+              ],
+              "status": "active",
+              "note": "大容量存储优化，24盘位可扩至240TB"
+            },
+            "cluster": {
+              "nodes": 2,
+              "totalCores": 64,
+              "totalMemGB": 256,
+              "totalGpu": 0,
+              "totalGpuFlops": 0,
+              "perNodeStorageTB": 48,
+              "totalStorageTB": 96,
+              "totalNicMbps": 50000,
+              "totalPrice": 236000,
+              "totalPowerKW": 2.4
+            },
+            "scores": {
+              "performance": 83.7,
+              "value": 100,
+              "power": 60,
+              "service": 95,
+              "total": 86.7,
+              "valueIndex": 7.32
+            },
+            "fitRatios": {
+              "cpu": 1.23,
+              "mem": 1,
+              "gpu": null,
+              "storage": 3.93,
+              "nic": 500
+            },
+            "reasons": [
+              "CPU覆盖需求 123%、内存覆盖 100%、存储覆盖 393%，2 节点即可满足并发规模测算需求。",
+              "综合适配度 86.7 分（性能83.7/性价比100/功耗60/维保95），性能匹配表现突出；总价 ￥236,000 处于预算区间低位。"
+            ]
+          }
+        ],
+        "top3": [
+          {
+            "machine": {
+              "id": "dell-r760xd2",
+              "brand": "戴尔",
+              "model": "PowerEdge R760xd2",
+              "category": "存储型服务器",
+              "cpuArch": "x86",
+              "cpu": {
+                "model": "Intel Xeon Silver 4314",
+                "count": 2,
+                "coresPerCPU": 16,
+                "freqGHz": 2.4
+              },
+              "gpu": null,
+              "memory": {
+                "stdGB": 128,
+                "maxGB": 2048,
+                "slots": 16,
+                "type": "DDR4-3200 ECC"
+              },
+              "storage": {
+                "stdTB": 48,
+                "maxTB": 240,
+                "type": "24×3.5英寸大容量盘位"
+              },
+              "network": {
+                "model": "4×25GbE",
+                "nicGbps": 25
+              },
+              "powerW": 1200,
+              "price": 118000,
+              "warrantyYears": 3,
+              "deliveryWeeks": 5,
+              "tags": [
+                "storage",
+                "database"
+              ],
+              "status": "active",
+              "note": "大容量存储优化，24盘位可扩至240TB"
+            },
+            "cluster": {
+              "nodes": 2,
+              "totalCores": 64,
+              "totalMemGB": 256,
+              "totalGpu": 0,
+              "totalGpuFlops": 0,
+              "perNodeStorageTB": 48,
+              "totalStorageTB": 96,
+              "totalNicMbps": 50000,
+              "totalPrice": 236000,
+              "totalPowerKW": 2.4
+            },
+            "scores": {
+              "performance": 83.7,
+              "value": 100,
+              "power": 60,
+              "service": 95,
+              "total": 86.7,
+              "valueIndex": 7.32
+            },
+            "fitRatios": {
+              "cpu": 1.23,
+              "mem": 1,
+              "gpu": null,
+              "storage": 3.93,
+              "nic": 500
+            },
+            "reasons": [
+              "CPU覆盖需求 123%、内存覆盖 100%、存储覆盖 393%，2 节点即可满足并发规模测算需求。",
+              "综合适配度 86.7 分（性能83.7/性价比100/功耗60/维保95），性能匹配表现突出；总价 ￥236,000 处于预算区间低位。"
+            ]
+          }
+        ],
+        "alternative": null,
+        "filterNotes": [
+          "GPU需求为“无”，已排除GPU服务器后剩 14 款。",
+          "按CPU/内存/GPU/存储性能约束完成集群规模换算，14 款机型可满足容量需求。",
+          "其中 1 款总价落在预算区间内且满足交付周期（≤不限），纳入评分排序。"
+        ],
+        "budgetRelaxed": "none",
+        "valueRanking": [
+          {
+            "rank": 1,
+            "name": "戴尔 PowerEdge R760xd2",
+            "valueIndex": 7.32,
+            "totalScore": 86.7,
+            "totalPrice": 236000
+          }
+        ],
+        "stats": {
+          "machineTotal": 22,
+          "feasible": 1
+        },
+        "rulesVersion": "1.0",
+        "computedAt": "2026-11-02T08:02:56.815Z"
+      },
+      "stages": [
+        {
+          "name": "参数校验与回显",
+          "pct": 15
+        },
+        {
+          "name": "负载画像映射",
+          "pct": 35
+        },
+        {
+          "name": "容量换算（CPU/内存/GPU/存储/带宽）",
+          "pct": 55
+        },
+        {
+          "name": "机型参数库匹配筛选",
+          "pct": 75
+        },
+        {
+          "name": "四维加权评分排序",
+          "pct": 90
+        },
+        {
+          "name": "报告生成",
+          "pct": 100
+        }
+      ],
+      "creatorUserId": null,
+      "createdAt": "2026-11-02T08:02:56.819Z"
     }
   ]
 }

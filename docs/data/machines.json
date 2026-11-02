@@ -1,0 +1,916 @@
+{
+  "version": "1.0",
+  "updatedAt": "2026-11-02T05:10:11.335Z",
+  "machines": [
+    {
+      "id": "inspur-nf5468a5",
+      "brand": "浪潮",
+      "model": "NF5468A5",
+      "category": "GPU服务器",
+      "cpuArch": "x86",
+      "cpu": {
+        "model": "Intel Xeon Platinum 8352Y",
+        "count": 2,
+        "coresPerCPU": 32,
+        "freqGHz": 2.2
+      },
+      "gpu": {
+        "model": "NVIDIA A800 80GB PCIe",
+        "count": 8,
+        "vramGB": 80,
+        "fp16Tflops": 312,
+        "class": "nvidia-dc"
+      },
+      "memory": {
+        "stdGB": 512,
+        "maxGB": 4096,
+        "slots": 32,
+        "type": "DDR4-3200 ECC"
+      },
+      "storage": {
+        "stdTB": 7.68,
+        "maxTB": 61.44,
+        "type": "NVMe SSD"
+      },
+      "network": {
+        "model": "2×25GbE + 2×200G InfiniBand",
+        "nicGbps": 25
+      },
+      "powerW": 5500,
+      "price": 998000,
+      "warrantyYears": 3,
+      "deliveryWeeks": 6,
+      "tags": [
+        "gpu-train",
+        "render"
+      ],
+      "status": "active",
+      "note": "8卡A800训练服务器，支持大规模分布式训练"
+    },
+    {
+      "id": "inspur-nf5280m6",
+      "brand": "浪潮",
+      "model": "NF5280M6",
+      "category": "通用机架服务器",
+      "cpuArch": "x86",
+      "cpu": {
+        "model": "Intel Xeon Silver 4314",
+        "count": 2,
+        "coresPerCPU": 16,
+        "freqGHz": 2.4
+      },
+      "gpu": null,
+      "memory": {
+        "stdGB": 128,
+        "maxGB": 2048,
+        "slots": 16,
+        "type": "DDR4-3200 ECC"
+      },
+      "storage": {
+        "stdTB": 4.8,
+        "maxTB": 60,
+        "type": "SAS/NVMe 混合"
+      },
+      "network": {
+        "model": "2×10GbE",
+        "nicGbps": 10
+      },
+      "powerW": 800,
+      "price": 42800,
+      "warrantyYears": 3,
+      "deliveryWeeks": 3,
+      "tags": [
+        "web",
+        "database",
+        "other"
+      ],
+      "status": "active",
+      "note": "2U通用双路，性价比均衡"
+    },
+    {
+      "id": "inspur-nf5180m6",
+      "brand": "浪潮",
+      "model": "NF5180M6",
+      "category": "边缘/短机深服务器",
+      "cpuArch": "x86",
+      "cpu": {
+        "model": "Intel Xeon Silver 4310",
+        "count": 1,
+        "coresPerCPU": 12,
+        "freqGHz": 2.1
+      },
+      "gpu": null,
+      "memory": {
+        "stdGB": 64,
+        "maxGB": 512,
+        "slots": 8,
+        "type": "DDR4-3200 ECC"
+      },
+      "storage": {
+        "stdTB": 3.84,
+        "maxTB": 30.72,
+        "type": "SATA SSD"
+      },
+      "network": {
+        "model": "4×10GbE",
+        "nicGbps": 10
+      },
+      "powerW": 450,
+      "price": 26800,
+      "warrantyYears": 3,
+      "deliveryWeeks": 2,
+      "tags": [
+        "edge",
+        "web"
+      ],
+      "status": "active",
+      "note": "短机深1U，适合边缘机房与一体柜部署"
+    },
+    {
+      "id": "lenovo-sr650v3",
+      "brand": "联想",
+      "model": "ThinkSystem SR650 V3",
+      "category": "通用机架服务器",
+      "cpuArch": "x86",
+      "cpu": {
+        "model": "Intel Xeon Gold 6338",
+        "count": 2,
+        "coresPerCPU": 32,
+        "freqGHz": 2
+      },
+      "gpu": null,
+      "memory": {
+        "stdGB": 256,
+        "maxGB": 4096,
+        "slots": 32,
+        "type": "DDR5-4800 ECC"
+      },
+      "storage": {
+        "stdTB": 3.84,
+        "maxTB": 61.44,
+        "type": "NVMe SSD"
+      },
+      "network": {
+        "model": "2×25GbE",
+        "nicGbps": 25
+      },
+      "powerW": 1100,
+      "price": 72800,
+      "warrantyYears": 3,
+      "deliveryWeeks": 4,
+      "tags": [
+        "web",
+        "database",
+        "other"
+      ],
+      "status": "active",
+      "note": "2U高性能双路，内存扩展能力强"
+    },
+    {
+      "id": "lenovo-sr250v3",
+      "brand": "联想",
+      "model": "ThinkSystem SR250 V3",
+      "category": "入门机架服务器",
+      "cpuArch": "x86",
+      "cpu": {
+        "model": "Intel Xeon E-2436",
+        "count": 1,
+        "coresPerCPU": 6,
+        "freqGHz": 2.9
+      },
+      "gpu": null,
+      "memory": {
+        "stdGB": 32,
+        "maxGB": 128,
+        "slots": 4,
+        "type": "DDR5-4800 ECC"
+      },
+      "storage": {
+        "stdTB": 1.92,
+        "maxTB": 30.72,
+        "type": "SATA SSD"
+      },
+      "network": {
+        "model": "2×10GbE",
+        "nicGbps": 10
+      },
+      "powerW": 350,
+      "price": 16800,
+      "warrantyYears": 3,
+      "deliveryWeeks": 2,
+      "tags": [
+        "edge",
+        "web"
+      ],
+      "status": "active",
+      "note": "1U入门单路，轻量应用与边缘接入"
+    },
+    {
+      "id": "lenovo-sr675v3",
+      "brand": "联想",
+      "model": "ThinkSystem SR675 V3",
+      "category": "GPU服务器",
+      "cpuArch": "x86-AMD",
+      "cpu": {
+        "model": "AMD EPYC 9354",
+        "count": 2,
+        "coresPerCPU": 84,
+        "freqGHz": 3.25
+      },
+      "gpu": {
+        "model": "NVIDIA H800 80GB PCIe",
+        "count": 8,
+        "vramGB": 80,
+        "fp16Tflops": 756,
+        "class": "nvidia-dc"
+      },
+      "memory": {
+        "stdGB": 1024,
+        "maxGB": 6144,
+        "slots": 24,
+        "type": "DDR5-4800 ECC"
+      },
+      "storage": {
+        "stdTB": 15.36,
+        "maxTB": 61.44,
+        "type": "NVMe SSD"
+      },
+      "network": {
+        "model": "4×200G InfiniBand",
+        "nicGbps": 25
+      },
+      "powerW": 6200,
+      "price": 1298000,
+      "warrantyYears": 3,
+      "deliveryWeeks": 8,
+      "tags": [
+        "gpu-train",
+        "render"
+      ],
+      "status": "active",
+      "note": "AMD双路+8卡H800，高核心数训练平台"
+    },
+    {
+      "id": "dell-r750",
+      "brand": "戴尔",
+      "model": "PowerEdge R750",
+      "category": "通用机架服务器",
+      "cpuArch": "x86",
+      "cpu": {
+        "model": "Intel Xeon Gold 6338",
+        "count": 2,
+        "coresPerCPU": 32,
+        "freqGHz": 2
+      },
+      "gpu": null,
+      "memory": {
+        "stdGB": 256,
+        "maxGB": 4096,
+        "slots": 32,
+        "type": "DDR4-3200 ECC"
+      },
+      "storage": {
+        "stdTB": 3.84,
+        "maxTB": 60,
+        "type": "NVMe/SAS 混合"
+      },
+      "network": {
+        "model": "4×25GbE",
+        "nicGbps": 25
+      },
+      "powerW": 1000,
+      "price": 69800,
+      "warrantyYears": 3,
+      "deliveryWeeks": 4,
+      "tags": [
+        "web",
+        "database",
+        "other"
+      ],
+      "status": "active",
+      "note": "2U主流双路，企业级通用负载"
+    },
+    {
+      "id": "dell-r760xd2",
+      "brand": "戴尔",
+      "model": "PowerEdge R760xd2",
+      "category": "存储型服务器",
+      "cpuArch": "x86",
+      "cpu": {
+        "model": "Intel Xeon Silver 4314",
+        "count": 2,
+        "coresPerCPU": 16,
+        "freqGHz": 2.4
+      },
+      "gpu": null,
+      "memory": {
+        "stdGB": 128,
+        "maxGB": 2048,
+        "slots": 16,
+        "type": "DDR4-3200 ECC"
+      },
+      "storage": {
+        "stdTB": 48,
+        "maxTB": 240,
+        "type": "24×3.5英寸大容量盘位"
+      },
+      "network": {
+        "model": "4×25GbE",
+        "nicGbps": 25
+      },
+      "powerW": 1200,
+      "price": 118000,
+      "warrantyYears": 3,
+      "deliveryWeeks": 5,
+      "tags": [
+        "storage",
+        "database"
+      ],
+      "status": "active",
+      "note": "大容量存储优化，24盘位可扩至240TB"
+    },
+    {
+      "id": "dell-xe9680",
+      "brand": "戴尔",
+      "model": "PowerEdge XE9680",
+      "category": "GPU服务器",
+      "cpuArch": "x86",
+      "cpu": {
+        "model": "Intel Xeon Platinum 8480+",
+        "count": 2,
+        "coresPerCPU": 56,
+        "freqGHz": 2
+      },
+      "gpu": {
+        "model": "NVIDIA H100 80GB SXM",
+        "count": 8,
+        "vramGB": 80,
+        "fp16Tflops": 989,
+        "class": "nvidia-dc"
+      },
+      "memory": {
+        "stdGB": 2048,
+        "maxGB": 6144,
+        "slots": 32,
+        "type": "DDR5-4800 ECC"
+      },
+      "storage": {
+        "stdTB": 30.72,
+        "maxTB": 61.44,
+        "type": "NVMe SSD"
+      },
+      "network": {
+        "model": "8×400G IB/ROCE",
+        "nicGbps": 25
+      },
+      "powerW": 10200,
+      "price": 2398000,
+      "warrantyYears": 4,
+      "deliveryWeeks": 10,
+      "tags": [
+        "gpu-train"
+      ],
+      "status": "active",
+      "note": "旗舰8卡H100 SXM，大规模训练集群首选"
+    },
+    {
+      "id": "huawei-2288hv7",
+      "brand": "华为",
+      "model": "FusionServer 2288H V7",
+      "category": "通用机架服务器",
+      "cpuArch": "x86",
+      "cpu": {
+        "model": "Intel Xeon Silver 4316",
+        "count": 2,
+        "coresPerCPU": 20,
+        "freqGHz": 2.3
+      },
+      "gpu": null,
+      "memory": {
+        "stdGB": 128,
+        "maxGB": 2048,
+        "slots": 16,
+        "type": "DDR4-3200 ECC"
+      },
+      "storage": {
+        "stdTB": 3.84,
+        "maxTB": 60,
+        "type": "SAS/NVMe 混合"
+      },
+      "network": {
+        "model": "4×25GbE",
+        "nicGbps": 25
+      },
+      "powerW": 900,
+      "price": 55800,
+      "warrantyYears": 3,
+      "deliveryWeeks": 4,
+      "tags": [
+        "web",
+        "database",
+        "other"
+      ],
+      "status": "active",
+      "note": "2U均衡型双路，国产主流品牌"
+    },
+    {
+      "id": "huawei-atlas800t",
+      "brand": "华为",
+      "model": "Atlas 800T A2",
+      "category": "GPU服务器",
+      "cpuArch": "arm",
+      "cpu": {
+        "model": "鲲鹏920",
+        "count": 2,
+        "coresPerCPU": 48,
+        "freqGHz": 2.6
+      },
+      "gpu": {
+        "model": "昇腾910B 64GB",
+        "count": 8,
+        "vramGB": 64,
+        "fp16Tflops": 320,
+        "class": "ascn"
+      },
+      "memory": {
+        "stdGB": 1024,
+        "maxGB": 4096,
+        "slots": 32,
+        "type": "DDR4-2933 ECC"
+      },
+      "storage": {
+        "stdTB": 15.36,
+        "maxTB": 61.44,
+        "type": "NVMe SSD"
+      },
+      "network": {
+        "model": "4×200G RoCE",
+        "nicGbps": 25
+      },
+      "powerW": 5600,
+      "price": 898000,
+      "warrantyYears": 5,
+      "deliveryWeeks": 5,
+      "tags": [
+        "gpu-train"
+      ],
+      "status": "active",
+      "note": "8卡昇腾910B全国产训练服务器，5年维保"
+    },
+    {
+      "id": "huawei-atlas500pro",
+      "brand": "华为",
+      "model": "Atlas 500 Pro 智能小站",
+      "category": "边缘服务器",
+      "cpuArch": "arm",
+      "cpu": {
+        "model": "鲲鹏920",
+        "count": 1,
+        "coresPerCPU": 24,
+        "freqGHz": 2.6
+      },
+      "gpu": null,
+      "memory": {
+        "stdGB": 64,
+        "maxGB": 256,
+        "slots": 8,
+        "type": "DDR4-2933 ECC"
+      },
+      "storage": {
+        "stdTB": 4,
+        "maxTB": 16,
+        "type": "SATA SSD"
+      },
+      "network": {
+        "model": "4×10GbE",
+        "nicGbps": 10
+      },
+      "powerW": 400,
+      "price": 22800,
+      "warrantyYears": 5,
+      "deliveryWeeks": 2,
+      "tags": [
+        "edge"
+      ],
+      "status": "active",
+      "note": "边缘智能小站，宽温设计低功耗"
+    },
+    {
+      "id": "huawei-5288v7",
+      "brand": "华为",
+      "model": "FusionServer 5288 V7",
+      "category": "存储型服务器",
+      "cpuArch": "x86",
+      "cpu": {
+        "model": "Intel Xeon Silver 4314",
+        "count": 2,
+        "coresPerCPU": 16,
+        "freqGHz": 2.4
+      },
+      "gpu": null,
+      "memory": {
+        "stdGB": 128,
+        "maxGB": 2048,
+        "slots": 16,
+        "type": "DDR4-3200 ECC"
+      },
+      "storage": {
+        "stdTB": 32,
+        "maxTB": 304,
+        "type": "38×3.5英寸盘位"
+      },
+      "network": {
+        "model": "4×25GbE",
+        "nicGbps": 25
+      },
+      "powerW": 1000,
+      "price": 82000,
+      "warrantyYears": 3,
+      "deliveryWeeks": 4,
+      "tags": [
+        "storage",
+        "database"
+      ],
+      "status": "active",
+      "note": "38盘位存储服务器，最大304TB"
+    },
+    {
+      "id": "xfusion-2288hv6",
+      "brand": "超聚变",
+      "model": "FusionServer 2288H V6",
+      "category": "通用机架服务器",
+      "cpuArch": "x86",
+      "cpu": {
+        "model": "Intel Xeon Silver 4314",
+        "count": 2,
+        "coresPerCPU": 16,
+        "freqGHz": 2.4
+      },
+      "gpu": null,
+      "memory": {
+        "stdGB": 128,
+        "maxGB": 2048,
+        "slots": 16,
+        "type": "DDR4-3200 ECC"
+      },
+      "storage": {
+        "stdTB": 3.84,
+        "maxTB": 60,
+        "type": "SAS/NVMe 混合"
+      },
+      "network": {
+        "model": "4×25GbE",
+        "nicGbps": 25
+      },
+      "powerW": 850,
+      "price": 49800,
+      "warrantyYears": 3,
+      "deliveryWeeks": 3,
+      "tags": [
+        "web",
+        "database",
+        "other"
+      ],
+      "status": "active",
+      "note": "2U高性价比双路，供货周期短"
+    },
+    {
+      "id": "xfusion-g5500v7",
+      "brand": "超聚变",
+      "model": "FusionServer G5500 V7",
+      "category": "GPU服务器",
+      "cpuArch": "x86-AMD",
+      "cpu": {
+        "model": "AMD EPYC 7543",
+        "count": 2,
+        "coresPerCPU": 64,
+        "freqGHz": 2.8
+      },
+      "gpu": {
+        "model": "NVIDIA A800 80GB PCIe",
+        "count": 8,
+        "vramGB": 80,
+        "fp16Tflops": 312,
+        "class": "nvidia-dc"
+      },
+      "memory": {
+        "stdGB": 1024,
+        "maxGB": 4096,
+        "slots": 24,
+        "type": "DDR4-3200 ECC"
+      },
+      "storage": {
+        "stdTB": 15.36,
+        "maxTB": 61.44,
+        "type": "NVMe SSD"
+      },
+      "network": {
+        "model": "4×200G InfiniBand",
+        "nicGbps": 25
+      },
+      "powerW": 6000,
+      "price": 1058000,
+      "warrantyYears": 3,
+      "deliveryWeeks": 7,
+      "tags": [
+        "gpu-train",
+        "render"
+      ],
+      "status": "active",
+      "note": "AMD高核心数+8卡A800，训练渲染兼顾"
+    },
+    {
+      "id": "sugon-i620g40",
+      "brand": "中科曙光",
+      "model": "I620-G40",
+      "category": "通用机架服务器",
+      "cpuArch": "x86-国产",
+      "cpu": {
+        "model": "海光7390",
+        "count": 2,
+        "coresPerCPU": 32,
+        "freqGHz": 2.7
+      },
+      "gpu": null,
+      "memory": {
+        "stdGB": 256,
+        "maxGB": 2048,
+        "slots": 16,
+        "type": "DDR4-3200 ECC"
+      },
+      "storage": {
+        "stdTB": 3.84,
+        "maxTB": 60,
+        "type": "NVMe SSD"
+      },
+      "network": {
+        "model": "2×25GbE",
+        "nicGbps": 25
+      },
+      "powerW": 900,
+      "price": 61800,
+      "warrantyYears": 3,
+      "deliveryWeeks": 4,
+      "tags": [
+        "database",
+        "web",
+        "other"
+      ],
+      "status": "active",
+      "note": "海光国产化x86双路，信创场景友好"
+    },
+    {
+      "id": "sugon-x7850g40",
+      "brand": "中科曙光",
+      "model": "X7850-G40",
+      "category": "GPU服务器",
+      "cpuArch": "x86-国产",
+      "cpu": {
+        "model": "海光7390",
+        "count": 2,
+        "coresPerCPU": 32,
+        "freqGHz": 2.7
+      },
+      "gpu": {
+        "model": "深算二号 DCU 64GB",
+        "count": 8,
+        "vramGB": 64,
+        "fp16Tflops": 180,
+        "class": "ascn"
+      },
+      "memory": {
+        "stdGB": 1024,
+        "maxGB": 4096,
+        "slots": 16,
+        "type": "DDR4-3200 ECC"
+      },
+      "storage": {
+        "stdTB": 15.36,
+        "maxTB": 61.44,
+        "type": "NVMe SSD"
+      },
+      "network": {
+        "model": "4×200G RoCE",
+        "nicGbps": 25
+      },
+      "powerW": 5800,
+      "price": 928000,
+      "warrantyYears": 5,
+      "deliveryWeeks": 6,
+      "tags": [
+        "gpu-train"
+      ],
+      "status": "active",
+      "note": "8卡深算DCU国产AI服务器"
+    },
+    {
+      "id": "h3c-r4900g6",
+      "brand": "H3C",
+      "model": "UniServer R4900 G6",
+      "category": "通用机架服务器",
+      "cpuArch": "x86",
+      "cpu": {
+        "model": "Intel Xeon Silver 4316",
+        "count": 2,
+        "coresPerCPU": 20,
+        "freqGHz": 2.3
+      },
+      "gpu": null,
+      "memory": {
+        "stdGB": 128,
+        "maxGB": 2048,
+        "slots": 16,
+        "type": "DDR4-3200 ECC"
+      },
+      "storage": {
+        "stdTB": 3.84,
+        "maxTB": 60,
+        "type": "NVMe/SAS 混合"
+      },
+      "network": {
+        "model": "4×25GbE",
+        "nicGbps": 25
+      },
+      "powerW": 850,
+      "price": 52800,
+      "warrantyYears": 3,
+      "deliveryWeeks": 3,
+      "tags": [
+        "web",
+        "database",
+        "other"
+      ],
+      "status": "active",
+      "note": "2U主流双路，渠道供货快"
+    },
+    {
+      "id": "h3c-r5300g5",
+      "brand": "H3C",
+      "model": "UniServer R5300 G5",
+      "category": "通用机架服务器",
+      "cpuArch": "arm",
+      "cpu": {
+        "model": "鲲鹏920",
+        "count": 2,
+        "coresPerCPU": 64,
+        "freqGHz": 2.6
+      },
+      "gpu": null,
+      "memory": {
+        "stdGB": 256,
+        "maxGB": 4096,
+        "slots": 32,
+        "type": "DDR4-2933 ECC"
+      },
+      "storage": {
+        "stdTB": 7.68,
+        "maxTB": 60,
+        "type": "NVMe SSD"
+      },
+      "network": {
+        "model": "4×25GbE",
+        "nicGbps": 25
+      },
+      "powerW": 950,
+      "price": 66800,
+      "warrantyYears": 5,
+      "deliveryWeeks": 4,
+      "tags": [
+        "web",
+        "database",
+        "other"
+      ],
+      "status": "active",
+      "note": "鲲鹏ARM双路128核，多线程密度高"
+    },
+    {
+      "id": "nettrix-x640g50",
+      "brand": "宁畅",
+      "model": "X640 G50",
+      "category": "GPU服务器",
+      "cpuArch": "x86",
+      "cpu": {
+        "model": "Intel Xeon Platinum 8462Y+",
+        "count": 2,
+        "coresPerCPU": 32,
+        "freqGHz": 2.7
+      },
+      "gpu": {
+        "model": "NVIDIA H800 80GB PCIe",
+        "count": 8,
+        "vramGB": 80,
+        "fp16Tflops": 756,
+        "class": "nvidia-dc"
+      },
+      "memory": {
+        "stdGB": 1024,
+        "maxGB": 6144,
+        "slots": 32,
+        "type": "DDR5-4800 ECC"
+      },
+      "storage": {
+        "stdTB": 15.36,
+        "maxTB": 61.44,
+        "type": "NVMe SSD"
+      },
+      "network": {
+        "model": "4×200G InfiniBand",
+        "nicGbps": 25
+      },
+      "powerW": 6100,
+      "price": 1188000,
+      "warrantyYears": 4,
+      "deliveryWeeks": 8,
+      "tags": [
+        "gpu-train",
+        "render"
+      ],
+      "status": "active",
+      "note": "8卡H800，训练推理均衡"
+    },
+    {
+      "id": "hpe-dl380gen11",
+      "brand": "HPE",
+      "model": "ProLiant DL380 Gen11",
+      "category": "通用机架服务器",
+      "cpuArch": "x86",
+      "cpu": {
+        "model": "Intel Xeon Gold 6448Y",
+        "count": 2,
+        "coresPerCPU": 32,
+        "freqGHz": 2.1
+      },
+      "gpu": null,
+      "memory": {
+        "stdGB": 256,
+        "maxGB": 4096,
+        "slots": 32,
+        "type": "DDR5-5600 ECC"
+      },
+      "storage": {
+        "stdTB": 7.68,
+        "maxTB": 60,
+        "type": "NVMe SSD"
+      },
+      "network": {
+        "model": "4×25GbE",
+        "nicGbps": 25
+      },
+      "powerW": 1000,
+      "price": 76800,
+      "warrantyYears": 3,
+      "deliveryWeeks": 5,
+      "tags": [
+        "web",
+        "database",
+        "other"
+      ],
+      "status": "active",
+      "note": "国际品牌主流2U，全球维保体系"
+    },
+    {
+      "id": "lenovo-p920",
+      "brand": "联想",
+      "model": "ThinkSystem P920",
+      "category": "图形工作站服务器",
+      "cpuArch": "x86",
+      "cpu": {
+        "model": "Intel Xeon Gold 6242R",
+        "count": 2,
+        "coresPerCPU": 20,
+        "freqGHz": 3.1
+      },
+      "gpu": {
+        "model": "NVIDIA RTX 6000 Ada 48GB",
+        "count": 4,
+        "vramGB": 48,
+        "fp16Tflops": 182,
+        "class": "nvidia-graphics"
+      },
+      "memory": {
+        "stdGB": 256,
+        "maxGB": 2048,
+        "slots": 24,
+        "type": "DDR4-2933 ECC"
+      },
+      "storage": {
+        "stdTB": 8,
+        "maxTB": 32,
+        "type": "NVMe SSD"
+      },
+      "network": {
+        "model": "2×10GbE",
+        "nicGbps": 10
+      },
+      "powerW": 1800,
+      "price": 268000,
+      "warrantyYears": 3,
+      "deliveryWeeks": 5,
+      "tags": [
+        "render"
+      ],
+      "status": "active",
+      "note": "4卡RTX 6000 Ada，渲染/视觉计算专用"
+    }
+  ]
+}

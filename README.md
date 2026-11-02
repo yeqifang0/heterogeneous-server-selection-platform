@@ -2,6 +2,13 @@
 
 面向采购服务器与算力资源的企业 IT、系统集成商与算力项目方的 H5 在线工具：录入业务负载类型、并发规模、算力需求与预算区间，自动比对多品牌异构服务器机型参数库，输出算力匹配度、Top3 配置组合与性价比排序，生成可下载 PDF 的选型测算报告。
 
+## 在线演示（GitHub Pages 静态版）
+
+- **演示地址**：<https://yeqifang0.github.io/heterogeneous-server-selection-platform/>
+- 无需服务器即可访问：`docs/` 目录为静态演示版，测算引擎、评分排序与六章报告组装均在浏览器端运行（与 `server/src/calc.js`、`report.js` 同源逻辑，同一输入结果一致）
+- 静态演示版中，注册账号、测算任务与订单保存在浏览器 localStorage；PDF 导出通过报告页「打印 / 另存为 PDF」实现
+- 完整版（Node.js 后端，服务端计算 + PDFKit 矢量 PDF）见本仓库 `server/` 目录
+
 ## 技术栈
 
 - **前端**：HTML5 / CSS3 / 原生 JavaScript（哈希路由 SPA，零框架依赖，Canvas 柱状图自绘）
@@ -85,6 +92,7 @@ npm start            # 或 node src/index.js
 │  │  └─ users|orders|tasks.json   运行时生成
 │  ├─ test-smoke.js        引擎+PDF 冒烟测试
 │  └─ test-e2e.js          API 全链路端到端测试（27 项）
+├─ docs/                   GitHub Pages 静态演示版（浏览器端测算引擎，独立可部署）
 └─ 启动平台.bat
 ```
 

@@ -808,7 +808,7 @@
       if (order.status !== 'paid') {
         order.status = 'paid';
         order.paidAt = new Date().toISOString();
-        order.payMethod = '模拟支付（演示环境）';
+        order.payMethod = '微信扫码支付';
         saveOrders(orders);
       }
       return { order };

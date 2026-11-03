@@ -1,8 +1,7 @@
 // 前端主应用：哈希路由 + 用户侧页面（首页/录入/处理/结果/报告/订单/登录注册）
 (function () {
   const $view = () => document.getElementById('view');
-  const DRAFT_KEY = 'ssp_draft_v1';
-  const LS = window.SSPStorage.local, SS = window.SSPStorage.session;
+  const SS = window.SSPStorage.session;
   const state = { bootstrap: null, user: null, seq: 0 };
 
   // ---------- 基础工具 ----------
@@ -136,7 +135,7 @@
         <div class="section-title">使用流程</div>
         <div class="section-sub">游客可免费试填并预览脱敏摘要，完整结果与正式报告付费解锁</div>
         <div class="steps">
-          <div class="step"><b>录入需求</b><span>业务场景、并发规模、算力需求与预算区间，支持草稿暂存</span></div>
+          <div class="step"><b>录入需求</b><span>业务场景、并发规模、算力需求与预算区间</span></div>
           <div class="step"><b>自动测算</b><span>负载画像映射 → 容量换算 → 机型库匹配 → 四维加权评分</span></div>
           <div class="step"><b>查看结果</b><span>Top3 推荐配置 + 备选方案，适配度柱状对比与性价比排序</span></div>
           <div class="step"><b>获取报告</b><span>付费解锁六章完整报告，在线查看并下载 PDF 版本</span></div>
@@ -184,11 +183,6 @@
       <div class="page-head">
         <div><div class="page-title">录入测算需求</div>
         <div class="page-sub">带 <span style="color:var(--danger)">*</span> 为必填项；所有换算系数与评分权重由平台后台规则表统一配置</div></div>
-      </div>
-      <div class="draft-banner" id="draft-banner" hidden>
-        <span>发现暂存草稿（<span id="draft-time"></span>）</span>
-        <button class="btn btn-sm btn-primary" id="draft-restore">恢复草稿</button>
-        <button class="btn btn-sm btn-plain" id="draft-drop">放弃</button>
       </div>
       <form class="card form-card" id="calc-form" novalidate>
         <div class="fieldset">
@@ -290,46 +284,16 @@
 
         <div class="form-actions">
           <button type="submit" class="btn btn-lg btn-primary" id="btn-submit">提交并开始测算</button>
-          <button type="button" class="btn btn-ghost" id="btn-draft">暂存草稿</button>
-          <span class="draft-tip" id="draft-tip"></span>
         </div>
       </form>`;
 
     const form = v.querySelector('#calc-form');
 
-    // 草稿逻辑
-    function readDraft() { try { return JSON.parse(LS.getItem(DRAFT_KEY)); } catch (e) { return null; } }
-    function applyDraft(data) {
-      if (!data) return;
-      for (const [k, val] of Object.entries(data)) {
-        const el = form.querySelector(`[name="${k}"]`);
-        if (el && val !== null && val !== undefined && val !== '') el.value = val;
-      }
-    }
-    const draft = readDraft();
-    if (draft && draft.savedAt) {
-      const banner = v.querySelector('#draft-banner');
-      banner.hidden = false;
-      v.querySelector('#draft-time').textContent = fmtTime(draft.savedAt);
-      v.querySelector('#draft-restore').onclick = () => { applyDraft(draft.data); banner.hidden = true; toast('草稿已恢复', 'ok'); };
-      v.querySelector('#draft-drop').onclick = () => { LS.removeItem(DRAFT_KEY); banner.hidden = true; };
-    }
     function collectForm() {
       const data = {};
       form.querySelectorAll('[name]').forEach(el => { data[el.name] = el.value.trim(); });
       return data;
     }
-    function saveDraft(silent) {
-      const data = collectForm();
-      LS.setItem(DRAFT_KEY, JSON.stringify({ savedAt: new Date().toISOString(), data }));
-      if (!silent) toast('草稿已暂存，下次进入可恢复', 'ok');
-    }
-    let draftTimer = null;
-    form.addEventListener('input', () => {
-      clearTimeout(draftTimer);
-      draftTimer = setTimeout(() => saveDraft(true), 700);
-    });
-    v.querySelector('#btn-draft').onclick = () => saveDraft(false);
 
     // 校验（与后端规则一致）
     function setErr(name, msg) {
@@ -406,7 +370,6 @@
           if (payload[k] !== '') payload[k] = Number(payload[k]); else payload[k] = null;
         }
         const res = await ssp.api('/api/tasks', { body: payload });
-        LS.removeItem(DRAFT_KEY);
         location.hash = '#/task/' + res.taskId;
       } catch (err) {
         btn.disabled = false;
@@ -673,7 +636,7 @@
 
   function showPayModal(order, onPaid) {
     const mask = modal(`
-      <h3>确认支付订单</h3>
+      <h3>微信扫码支付</h3>
       <table class="kv-table">
         <tr><td>订单编号</td><td><b>${esc(order.orderNo)}</b></td></tr>
         <tr><td>商品</td><td>${esc(order.productName)}</td></tr>
@@ -681,22 +644,25 @@
         <tr><td>应付金额</td><td><b style="color:var(--primary);font-size:18px">${fmtMoney(order.amount)}</b></td></tr>
         <tr><td>报告版本</td><td>${esc(order.reportVersion)}</td></tr>
       </table>
-      <div class="notice" style="margin-top:14px;padding:10px 14px">演示环境为<b>模拟支付</b>：点击下方按钮即视为支付成功并解锁内容，正式环境可对接微信/支付宝/对公转账。</div>
+      <div style="text-align:center;margin-top:16px">
+        <img src="assets/wechat-qr.jpg" alt="微信收款码" style="width:200px;height:200px;object-fit:contain;border:1px solid #e5e9f2;border-radius:10px;background:#fff;padding:6px">
+        <p style="font-size:13px;color:var(--gray);margin-top:10px">请使用微信「扫一扫」扫描上方收款码支付 <b style="color:var(--primary)">${fmtMoney(order.amount)}</b><br>付款时请备注订单号后四位，支付完成后点击下方按钮解锁内容</p>
+      </div>
       <div class="modal-actions">
         <button class="btn btn-plain" id="pay-cancel">取消</button>
-        <button class="btn btn-primary" id="pay-go">模拟支付 ${fmtMoney(order.amount)}</button>
+        <button class="btn btn-primary" id="pay-go">我已完成支付</button>
       </div>`);
     mask.querySelector('#pay-cancel').onclick = closeModal;
     mask.querySelector('#pay-go').onclick = async () => {
       const btn = mask.querySelector('#pay-go');
-      btn.disabled = true; btn.textContent = '支付中…';
+      btn.disabled = true; btn.textContent = '正在确认…';
       try {
         await ssp.api('/api/orders/' + order.id + '/pay', { method: 'POST', body: {} });
         closeModal();
-        toast('支付成功，内容已解锁', 'ok');
+        toast('支付完成，内容已解锁', 'ok');
         onPaid && onPaid();
       } catch (err) {
-        btn.disabled = false; btn.textContent = '模拟支付 ' + fmtMoney(order.amount);
+        btn.disabled = false; btn.textContent = '我已完成支付';
         toast(err.message, 'err');
       }
     };

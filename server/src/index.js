@@ -234,7 +234,7 @@ app.post('/api/orders/:id/pay', auth.authRequired, (req, res) => {
   if (order.status === 'paid') return res.json({ order, already: true });
   order.status = 'paid';
   order.paidAt = new Date().toISOString();
-  order.payMethod = '模拟支付（演示环境）';
+  order.payMethod = '微信扫码支付';
   store.save('orders', orders);
   res.json({ order });
 });

@@ -645,7 +645,7 @@
         <tr><td>报告版本</td><td>${esc(order.reportVersion)}</td></tr>
       </table>
       <div style="text-align:center;margin-top:16px">
-        <img src="assets/wechat-qr.jpg?v=2" alt="微信收款码" style="width:200px;height:200px;object-fit:contain;border:1px solid #e5e9f2;border-radius:10px;background:#fff;padding:6px">
+        <img src="assets/pay-qr.jpg" alt="收款码" style="width:240px;height:240px;object-fit:contain;border:1px solid #e5e9f2;border-radius:10px;background:#fff;padding:6px">
         <p style="font-size:13px;color:var(--gray);margin-top:10px">请使用微信「扫一扫」扫描上方收款码支付 <b style="color:var(--primary)">${fmtMoney(order.amount)}</b><br>付款时请备注订单号后四位，支付完成后点击下方按钮解锁内容</p>
       </div>
       <div class="modal-actions">

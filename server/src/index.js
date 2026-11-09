@@ -26,6 +26,7 @@ app.get('/api/bootstrap', (_req, res) => {
     options: rules.options,
     pricing: rules.pricing,
     weights: rules.weights,
+    filingMode: !!rules.filingMode,
     reportVersion: REPORT_VERSION,
     platform: '异构服务器选型配置与算力匹配测算平台',
     version: 'V1.0'
@@ -193,6 +194,7 @@ function findTask(id) {
 function requirePaid(req, res, products) {
   const task = findTask(req.params.id);
   if (!task) { res.status(404).json({ error: '测算任务不存在' }); return null; }
+  if (getRules().filingMode) return task; // 备案模式：内容免费开放，跳过付费校验
   const orders = store.load('orders', { orders: [] }).orders
     .filter(o => o.taskId === task.id && o.status === 'paid' && products.includes(o.productId));
   if (!orders.length) { res.status(403).json({ error: '该内容需付费解锁后查看' }); return null; }

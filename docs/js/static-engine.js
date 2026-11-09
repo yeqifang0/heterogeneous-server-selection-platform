@@ -550,7 +550,7 @@
   let _rulesCache = null, _machinesCache = null;
 
   async function fetchJson(url) {
-    const res = await fetch(url);
+    const res = await fetch(url, { cache: 'no-cache' }); // 规则可热切换（filingMode），需向服务器重验证
     if (!res.ok) throw new StaticError('静态数据加载失败（' + url + '，HTTP ' + res.status + '）');
     return res.json();
   }
@@ -617,9 +617,11 @@
     };
   }
 
-  function requirePaidTask(taskId, products) {
+  async function requirePaidTask(taskId, products) {
     const task = findTask(taskId);
     if (!task) throw StaticError('测算任务不存在');
+    const rules = await getRules();
+    if (rules.filingMode) return task; // 备案模式：内容免费开放，跳过付费校验
     const orders = getOrders().filter(o => o.taskId === taskId && o.status === 'paid' && products.includes(o.productId));
     if (!orders.length) throw StaticError('该内容需付费解锁后查看');
     return task;
@@ -649,6 +651,7 @@
         options: rules.options,
         pricing: rules.pricing,
         weights: rules.weights,
+        filingMode: !!rules.filingMode,
         reportVersion: REPORT_VERSION,
         platform: '异构服务器选型配置与算力匹配测算平台',
         version: 'V1.0'
@@ -748,7 +751,7 @@
       };
     }
     if (method === 'GET' && (m = path.match(/^\/api\/tasks\/([^/]+)\/calc$/))) {
-      const task = requirePaidTask(m[1], ['quick', 'report']);
+      const task = await requirePaidTask(m[1], ["quick", "report"]);
       const r = task.result;
       const rules = await getRules();
       return {
@@ -765,7 +768,7 @@
       };
     }
     if (method === 'GET' && (m = path.match(/^\/api\/tasks\/([^/]+)\/report$/))) {
-      const task = requirePaidTask(m[1], ['report']);
+      const task = await requirePaidTask(m[1], ["report"]);
       const rules = await getRules();
       const report = buildReport(task, rules);
       const orders = getOrders().filter(o => o.taskId === task.id && o.productId === 'report' && o.status === 'paid');
@@ -922,7 +925,7 @@
     const m = path.match(/^\/api\/tasks\/([^/]+)\/report\.pdf$/);
     if (!m) throw StaticError('下载失败：未知资源');
     const taskId = m[1];
-    requirePaidTask(taskId, ['report']);
+    await requirePaidTask(taskId, ["report"]);
     if (window.sspUI && window.sspUI.toast) window.sspUI.toast('在线演示版：请在打印对话框选择“存储为 PDF”导出报告', 'ok');
     location.hash = '#/report/' + taskId;
     for (let i = 0; i < 40; i++) {

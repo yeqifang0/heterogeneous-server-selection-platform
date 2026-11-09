@@ -4,6 +4,10 @@
   const SS = window.SSPStorage.session;
   const state = { bootstrap: null, user: null, seq: 0 };
 
+  // 备案模式：rules.json 的 filingMode=true 时下架全部收费内容（价格/购买/收款码/订单），
+  // 测算结果与报告直接开放；备案通过后把 filingMode 改回 false 重新发布即恢复完整版
+  function isFilingMode() { return !!(state.bootstrap && state.bootstrap.filingMode); }
+
   // ---------- 基础工具 ----------
   function esc(s) {
     return String(s === null || s === undefined ? '' : s)
@@ -54,6 +58,8 @@
   function renderUserArea() {
     const area = document.getElementById('user-area');
     const navAdmin = document.getElementById('nav-admin');
+    const navOrders = document.getElementById('nav-orders');
+    if (navOrders) navOrders.hidden = isFilingMode();
     if (state.user) {
       navAdmin.hidden = state.user.role !== 'admin';
       area.innerHTML = `
@@ -85,7 +91,8 @@
     const { page, param, query } = parseHash();
     const map = {
       '': renderHome, form: renderForm, task: renderProcessing, result: renderResult,
-      report: renderReport, orders: renderOrders, login: renderLogin, register: renderRegister, admin: renderAdmin
+      report: renderReport, orders: renderOrders, login: renderLogin, register: renderRegister,
+      admin: renderAdmin, about: renderAbout, contact: renderContact
     };
     document.querySelectorAll('.nav a').forEach(a => a.classList.toggle('active', a.dataset.nav === (page || 'home')));
     state.seq++;
@@ -103,14 +110,35 @@
   // ---------- 首页 ----------
   function renderHome(v) {
     const b = state.bootstrap;
+    const filing = isFilingMode();
     const quick = b && b.pricing.quick, report = b && b.pricing.report;
+    const heroGhost = filing ? '' : '<a class="btn btn-lg btn-ghost" href="#pricing">查看收费说明</a>';
+    const pricingSection = filing ? '' : `
+      <div class="section" id="pricing">
+        <div class="section-title">收费说明</div>
+        <div class="section-sub">按报告/按次收费，未付费仅可预览脱敏摘要；支付后报告可反复查看与下载</div>
+        <div class="grid-2">
+          <div class="card price-card">
+            <span class="p-name">${esc(quick ? quick.name : '快速测算')}</span>
+            <div class="p-price">${quick ? quick.price : 49}<small> 元/${esc(quick ? quick.unit : '次')}</small></div>
+            <p class="p-desc">${esc(quick ? quick.desc : '')}</p>
+            <a class="btn btn-ghost" href="#/form">先免费试算</a>
+          </div>
+          <div class="card price-card" style="border:2px solid var(--primary)">
+            <span class="p-name">${esc(report ? report.name : '正式选型报告')}</span>
+            <div class="p-price">${report ? report.price : 199}<small> 元/${esc(report ? report.unit : '份')}</small></div>
+            <p class="p-desc">${esc(report ? report.desc : '')}</p>
+            <a class="btn btn-primary" href="#/form">开始测算并生成报告</a>
+          </div>
+        </div>
+      </div>`;
     v.innerHTML = `
       <div class="hero">
         <h1><b>异构服务器选型配置</b><br>与算力匹配测算平台</h1>
         <p>录入业务负载、并发规模与预算区间，自动比对多品牌异构服务器（Intel / AMD / 鲲鹏 / 海光 × A800 / H800 / H100 / 昇腾910B…）机型参数库，输出算力匹配度、Top3 配置组合与性价比排序，生成可下载 PDF 的选型测算报告。</p>
         <div class="hero-actions">
-          <a class="btn btn-lg btn-primary" href="#/form">开始使用 · 免费试算</a>
-          <a class="btn btn-lg btn-ghost" href="#pricing">查看收费说明</a>
+          <a class="btn btn-lg btn-primary" href="#/form">开始使用 · 免费测算</a>
+          ${heroGhost}
         </div>
         <div class="hero-meta">
           <div><b>22+</b><span>多品牌异构机型参数库</span></div>
@@ -133,33 +161,16 @@
 
       <div class="section">
         <div class="section-title">使用流程</div>
-        <div class="section-sub">游客可免费试填并预览脱敏摘要，完整结果与正式报告付费解锁</div>
+        <div class="section-sub">${filing ? '免费开放：测算结果与六章报告提交后即可完整查看' : '游客可免费试填并预览脱敏摘要，完整结果与正式报告付费解锁'}</div>
         <div class="steps">
           <div class="step"><b>录入需求</b><span>业务场景、并发规模、算力需求与预算区间</span></div>
           <div class="step"><b>自动测算</b><span>负载画像映射 → 容量换算 → 机型库匹配 → 四维加权评分</span></div>
           <div class="step"><b>查看结果</b><span>Top3 推荐配置 + 备选方案，适配度柱状对比与性价比排序</span></div>
-          <div class="step"><b>获取报告</b><span>付费解锁六章完整报告，在线查看并下载 PDF 版本</span></div>
+          <div class="step"><b>获取报告</b><span>${filing ? '在线查看六章完整报告，支持打印导出为 PDF' : '付费解锁六章完整报告，在线查看并下载 PDF 版本'}</span></div>
         </div>
       </div>
 
-      <div class="section" id="pricing">
-        <div class="section-title">收费说明</div>
-        <div class="section-sub">按报告/按次收费，未付费仅可预览脱敏摘要；支付后报告可反复查看与下载</div>
-        <div class="grid-2">
-          <div class="card price-card">
-            <span class="p-name">${esc(quick ? quick.name : '快速测算')}</span>
-            <div class="p-price">${quick ? quick.price : 49}<small> 元/${esc(quick ? quick.unit : '次')}</small></div>
-            <p class="p-desc">${esc(quick ? quick.desc : '')}</p>
-            <a class="btn btn-ghost" href="#/form">先免费试算</a>
-          </div>
-          <div class="card price-card" style="border:2px solid var(--primary)">
-            <span class="p-name">${esc(report ? report.name : '正式选型报告')}</span>
-            <div class="p-price">${report ? report.price : 199}<small> 元/${esc(report ? report.unit : '份')}</small></div>
-            <p class="p-desc">${esc(report ? report.desc : '')}</p>
-            <a class="btn btn-primary" href="#/form">开始测算并生成报告</a>
-          </div>
-        </div>
-      </div>
+      ${pricingSection}
 
       <div class="section">
         <div class="notice"><b>服务边界与合规说明：</b>本平台仅输出配置选型与测算建议，不提供现场部署、上架布线、整机安装调试等服务；报告为选型辅助，不构成采购承诺，最终采购决策由用户自行判断。价格与配置信息来源于公开资料整理，实际以厂商正式报价为准。</div>
@@ -445,6 +456,7 @@
         ssp.api('/api/tasks/' + taskId + '/entitlement')
       ]);
     } catch (e) { errorPage(v, e); return; }
+    if (isFilingMode()) ent = { calcUnlocked: true, reportUnlocked: true };
 
     const relaxMap = { delivery: ['badge-orange', '预算内机型供货周期偏长，已放宽交付约束'], budgetMin: ['badge-orange', '预算下限内无完全匹配方案，已按预算上限筛选'], budgetMax: ['badge-red', '预算上限内无满足方案，以下为超预算参考方案'], capacity: ['badge-red', '需求规模超出机型库容量上限，以下为最接近的参考方案'], none: null };
     const relax = relaxMap[sum.budgetRelaxed];
@@ -797,6 +809,10 @@
 
   // ---------- 订单页 ----------
   async function renderOrders(v) {
+    if (isFilingMode()) {
+      v.innerHTML = `<div class="empty"><div class="icon">📋</div>在线订单功能暂未开放<br><br><a class="btn btn-primary" href="#/form">开始一次测算</a></div>`;
+      return;
+    }
     if (!state.user) {
       SS.setItem('ssp_return', '#/orders');
       v.innerHTML = `<div class="empty"><div class="icon">👤</div>登录后可查看历史订单与已购报告<br><br><a class="btn btn-primary" href="#/login">去登录</a></div>`;
@@ -917,6 +933,32 @@
         if (err.message.indexOf('用户名') >= 0) setE(0, err.message); else toast(err.message, 'err');
       }
     };
+  }
+
+  // ---------- 关于我们 / 联系我们 ----------
+  function renderAbout(v) {
+    v.innerHTML = `
+      <div class="page-head"><div><div class="page-title">关于我们</div>
+      <div class="page-sub">上海蒙璐科技有限公司</div></div></div>
+      <div class="card" style="padding:28px 32px;line-height:2;color:var(--dark);font-size:15px">
+        <p>上海蒙璐科技有限公司立足上海，从事信息技术开发与企业数字化咨询服务，提供服务器配置选型咨询工具服务。</p>
+        <p>公司是深耕物联网智能运维、大数据治理、软件工程智能化赛道的科创型自研企业。始终锚定企业真实经营痛点开展技术研发，坚持全栈自研路线，聚焦设备物联监测、数据知识库搭建、研发测试全流程管控三大核心方向，打造轻量化、易落地、高适配的标准化软件产品。</p>
+        <p>我们拒绝悬浮式理论研发，所有系统均经过多行业现场业务打磨，可覆盖中小制造、工程运维、软件研发、综合园区等不同规模企业的数字化需求，用成熟自研工具，帮助企业打通数据孤岛、简化设备运维、规范研发流程，大幅降低数字化改造与软件迭代的时间、人力成本，让数智转型轻量化、高实效。</p>
+      </div>`;
+  }
+
+  function renderContact(v) {
+    v.innerHTML = `
+      <div class="page-head"><div><div class="page-title">联系我们</div>
+      <div class="page-sub">如有选型测算或企业数字化服务需求，欢迎联系洽谈</div></div></div>
+      <div class="card" style="max-width:680px">
+        <table class="kv-table">
+          <tr><td style="width:120px">联系人</td><td>王经理</td></tr>
+          <tr><td>联系电话</td><td><a href="tel:18817401419" style="color:var(--primary)">18817401419</a></td></tr>
+          <tr><td>电子邮箱</td><td><a href="mailto:13764673505@163.com" style="color:var(--primary)">13764673505@163.com</a></td></tr>
+          <tr><td>办公地址</td><td>上海市金山区朱泾镇秀江路280弄80号</td></tr>
+        </table>
+      </div>`;
   }
 
   // ---------- 管理后台入口（实现在 admin.js） ----------

@@ -217,5 +217,5 @@
       "label": "超大型（10万并发以上）"
     }
   ],
-  "filingMode": true
+  "filingMode": false
 }
